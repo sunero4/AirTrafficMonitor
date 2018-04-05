@@ -1,6 +1,7 @@
 ﻿using System;
 using AirTrafficMonitor.Converting;
 using AirTrafficMonitor.Domain;
+using AirTrafficMonitor.Exceptions;
 using NSubstitute;
 using NUnit.Framework;
 

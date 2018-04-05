@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AirTrafficMonitor.Controllers;
 using AirTrafficMonitor.Converting;
+using AirTrafficMonitor.Logging;
+using AirTrafficMonitor.Rendering;
 using TransponderReceiver;
 
 namespace AirTrafficMonitor.Application
@@ -14,8 +16,10 @@ namespace AirTrafficMonitor.Application
         static void Main(string[] args)
         {
             var transponderDataConversion = new TransponderDataConversion(new StringToDateTimeConversion());
-            var c = new TransponderDataReceivedController(TransponderReceiverFactory.CreateTransponderDataReceiver(), transponderDataConversion);
-            c.StartReceivingTransponderData();
+            var trackStringRepresentation = new TrackToStringRepresentation();
+            var trackLogger = new TrackConsoleLogging(trackStringRepresentation);
+            var controller = new TransponderDataReceivedController(TransponderReceiverFactory.CreateTransponderDataReceiver(), transponderDataConversion, trackLogger);
+            controller.StartReceivingTransponderData();
             Console.ReadLine();
         }
     }

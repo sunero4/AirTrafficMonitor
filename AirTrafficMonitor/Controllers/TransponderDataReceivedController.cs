@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AirTrafficMonitor.Converting;
+using AirTrafficMonitor.Logging;
 using TransponderReceiver;
 
 namespace AirTrafficMonitor.Controllers
@@ -12,11 +13,13 @@ namespace AirTrafficMonitor.Controllers
     {
         private readonly ITransponderReceiver _transponderReceiver;
         private readonly ITransponderDataConversion _transponderDataConversion;
+        private readonly ITrackLogging _trackLogging;
 
-        public TransponderDataReceivedController(ITransponderReceiver transponderReceiver, ITransponderDataConversion transponderDataConversion)
+        public TransponderDataReceivedController(ITransponderReceiver transponderReceiver, ITransponderDataConversion transponderDataConversion, ITrackLogging trackLogging)
         {
             _transponderReceiver = transponderReceiver;
             _transponderDataConversion = transponderDataConversion;
+            _trackLogging = trackLogging;
         }
         public void StartReceivingTransponderData()
         {
@@ -32,8 +35,8 @@ namespace AirTrafficMonitor.Controllers
         {
             foreach (var data in rawTransponderDataEventArgs.TransponderData)
             {
-                var convertedData = _transponderDataConversion.ConvertData(data);
-                Console.WriteLine($"Tag: {convertedData.Tag}, X: {convertedData.Position.X}, Y: {convertedData.Position.Y}");
+                var track = _transponderDataConversion.ConvertData(data);
+                _trackLogging.LogTrack(track);
             }
         }
     }
