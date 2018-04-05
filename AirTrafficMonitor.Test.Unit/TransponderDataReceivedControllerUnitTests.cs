@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AirTrafficMonitor.Controllers;
 using AirTrafficMonitor.Converting;
+using AirTrafficMonitor.Domain;
 using AirTrafficMonitor.Logging;
 using NSubstitute;
 using NUnit.Framework;
@@ -34,6 +35,24 @@ namespace AirTrafficMonitor.Test.Unit
         {
             _uut.StartReceivingTransponderData();
             _transponderReceiverFake.Received().TransponderDataReady += _uut.OnTransponderDataReady;
+        }
+
+        [Test]
+        public void StopReceivingTransponderData_OnTransponderDataReadyUnsubscribesFromEvent_CorrectCallIsReceived()
+        {
+            _uut.StopReceivingTransponderData();
+            _transponderReceiverFake.Received().TransponderDataReady -= _uut.OnTransponderDataReady;
+        }
+
+        [Test]
+        public void OnTransPonderDataReceived_CallsConversionAndTrackLogging_CorrectMethodCallsAreReceived()
+        {
+            var fakeData = new List<string>() {"test"};
+            _uut.OnTransponderDataReady(this, new RawTransponderDataEventArgs(fakeData));
+
+            //Two received in one test, but method only executes properly if both are received, so it's okay
+            _transponderDataConversionFake.Received().ConvertData("test");
+            _trackLogging.ReceivedWithAnyArgs().LogTrack(new Track());
         }
     }
 }
