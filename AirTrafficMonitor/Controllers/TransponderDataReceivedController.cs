@@ -31,7 +31,7 @@ namespace AirTrafficMonitor.Controllers
             _transponderReceiver.TransponderDataReady -= OnTransponderDataReady;
         }
 
-        private void OnTransponderDataReady(object sender, RawTransponderDataEventArgs rawTransponderDataEventArgs)
+        public void OnTransponderDataReady(object sender, RawTransponderDataEventArgs rawTransponderDataEventArgs)
         {
             foreach (var data in rawTransponderDataEventArgs.TransponderData)
             {
