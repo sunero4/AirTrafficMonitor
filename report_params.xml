@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReportParams>
+  <Source>MergedSnapshots.dcvr</Source>
+  <Output>coverage_report.html</Output>
+  <ReportType>html</ReportType>
+</ReportParams>
