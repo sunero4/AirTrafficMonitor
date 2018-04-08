@@ -51,6 +51,7 @@ namespace AirTrafficMonitor.Test.Unit
             _uut.OnTransponderDataReady(this, new RawTransponderDataEventArgs(fakeData));
 
             //Two received in one test, but method only executes properly if both are received, so it's okay
+            //I guess
             _transponderDataConversionFake.Received().ConvertData("test");
             _trackLogging.ReceivedWithAnyArgs().LogTrack(new Track());
         }
