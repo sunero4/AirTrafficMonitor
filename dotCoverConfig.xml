@@ -11,8 +11,8 @@
   <Filters>
     <ExcludeFilters>
       <FilterEntry>
-        <ModuleMask>AirTrafficMonitor</ModuleMask>
-        <ClassMask>AirTrafficMonitor.Boundary.Output</ClassMask>
+        <ModuleMask>AirTrafficMonitor.Application</ModuleMask>
+        <ClassMask>AirTrafficMonitor.Application.*</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
       <FilterEntry>
