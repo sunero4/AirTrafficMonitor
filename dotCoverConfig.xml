@@ -11,8 +11,8 @@
   <Filters>
     <ExcludeFilters>
       <FilterEntry>
-        <ModuleMask>MicrowaveOvenClasses</ModuleMask>
-        <ClassMask>MicrowaveOvenClasses.Boundary.Output</ClassMask>
+        <ModuleMask>AirTrafficMonitor</ModuleMask>
+        <ClassMask>AirTrafficMonitor.Boundary.Output</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
       <FilterEntry>
