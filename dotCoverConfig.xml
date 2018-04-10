@@ -20,6 +20,11 @@
         <ClassMask>AirTrafficMonitor.Test.Unit.*</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>nunit.framework</ModuleMask>
+        <ClassMask>nunit.framework.*</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
     </ExcludeFilters>
   </Filters>
   <!-- Coverage filters. It's possible to use asterisks as wildcard symbols.
