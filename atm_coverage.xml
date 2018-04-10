@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<CoverageParams>
-  <TargetExecutable>C:\Program Files (x86)\NUnit.org\nunit-console\nunit3-console.exe</TargetExecutable>
-  <TargetArguments>bin\Debug\AirTrafficMonitor.Test.Unit.dll</TargetArguments>
-  <TargetWorkingDir>AirTrafficMonitor.Test.Unit</TargetWorkingDir>
-  <Output>atm_snapshot.dcvr</Output>
-</CoverageParams>
