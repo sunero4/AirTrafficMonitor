@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AirTrafficMonitor.Domain;
 using AirTrafficMonitor.Extensions;
 using AirTrafficMonitor.VelocityCalc;
 
-namespace AirTrafficMonitor.Domain
+namespace AirTrafficMonitor.AirspaceManagement
 {
     public class Airspace : IAirspace
     {
         private readonly IVelocityCalculator _velocityCalculator;
 
-        public Airspace(IVelocityCalculator velocityCalculator)
+        public Airspace(IVelocityCalculator velocityCalculator, Coordinates southWestCorner, Coordinates northEastCorner, int lowerAltitudeBoundary, int upperAltitudeBoundary)
         {
             _velocityCalculator = velocityCalculator;
             PlanesInAirspace = new Dictionary<string, List<Track>>();
+            SoutWestCorner = southWestCorner;
+            NorthEastCorner = northEastCorner;
+            LowerAltitudeBoundary = lowerAltitudeBoundary;
+            UpperAltitudeBoundary = upperAltitudeBoundary;
         }
 
         public Coordinates SoutWestCorner { get; set; }
@@ -36,11 +38,6 @@ namespace AirTrafficMonitor.Domain
                 planeMovementDetected.AddToSlidingWindowList(trackEventArgs.Track, 2);
                 _velocityCalculator.CalculateVelocity(planeMovementDetected);
             }
-        }
-
-        public void OnPlaneLeavesAirSpace(object sender, TrackEventArgs trackEventArgs)
-        {
-            
         }
     }
 }

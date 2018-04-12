@@ -44,12 +44,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AirspaceManagement\AirspaceMonitoring.cs" />
+    <Compile Include="AirspaceManagement\IAirspaceMonitoring.cs" />
     <Compile Include="Controllers\TransponderDataReceivedController.cs" />
-    <Compile Include="Domain\Airspace.cs" />
+    <Compile Include="AirspaceManagement\Airspace.cs" />
     <Compile Include="Domain\Coordinates.cs" />
     <Compile Include="Converting\IStringToDateTimeConversion.cs" />
     <Compile Include="Converting\ITransponderDataConversion.cs" />
-    <Compile Include="Domain\IAirspace.cs" />
+    <Compile Include="AirspaceManagement\IAirspace.cs" />
     <Compile Include="Domain\TrackEventArgs.cs" />
     <Compile Include="Extensions\ListSlidingWindowExtension.cs" />
     <Compile Include="Logging\ITrackLogging.cs" />
