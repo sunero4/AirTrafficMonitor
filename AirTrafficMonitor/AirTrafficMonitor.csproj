@@ -57,6 +57,8 @@
     <Compile Include="Exceptions\TransponderDataConversionException.cs" />
     <Compile Include="Rendering\ITrackToStringRepresentation.cs" />
     <Compile Include="Rendering\TrackToStringRepresentation.cs" />
+    <Compile Include="VelocityCalc\IVelocityCalculator.cs" />
+    <Compile Include="VelocityCalc\VelocityCalculator.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

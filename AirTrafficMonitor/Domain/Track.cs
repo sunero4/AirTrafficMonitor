@@ -8,5 +8,6 @@ namespace AirTrafficMonitor.Domain
         public Coordinates Position { get; set; }
         public double Altitude { get; set; }
         public DateTime TimeStamp { get; set; }
+        public Double Velocity { get; set; }
     }
 }
