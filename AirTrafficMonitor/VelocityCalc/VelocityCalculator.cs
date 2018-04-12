@@ -11,10 +11,10 @@ namespace AirTrafficMonitor.VelocityCalc
     {
         public void CalculateVelocity(List<Track> Tracklist)
         {
-            double Timedifference = Tracklist[1].TimeStamp.Subtract(Tracklist[0].TimeStamp).TotalSeconds; 
+            double Timedifference = Tracklist[1].TimeStamp.Subtract(Tracklist[0].TimeStamp).TotalSeconds;
             double AltitudeDifference = Math.Abs(Tracklist[1].Altitude - Tracklist[0].Altitude);
-            double PositionDifferenceX = -Math.Abs(Tracklist[1].Position.X - Tracklist[0].Position.X);
-            double PositionDifferenceY = -Math.Abs(Tracklist[1].Position.Y - Tracklist[0].Position.Y);
+            double PositionDifferenceX = Math.Abs(Tracklist[1].Position.X - Tracklist[0].Position.X);
+            double PositionDifferenceY = Math.Abs(Tracklist[1].Position.Y - Tracklist[0].Position.Y);
             
             double HorizontalVelocity = AltitudeDifference / Timedifference;
             double VerticalVelocity = (PositionDifferenceX + PositionDifferenceY) / Timedifference;
