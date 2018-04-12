@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using AirTrafficMonitor.Domain;
 
-namespace AirTrafficMonitor.Domain
+namespace AirTrafficMonitor.AirspaceManagement
 {
     public interface IAirspace
     {

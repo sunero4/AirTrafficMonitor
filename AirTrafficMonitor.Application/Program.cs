@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AirTrafficMonitor.AirspaceManagement;
 using AirTrafficMonitor.Controllers;
 using AirTrafficMonitor.Converting;
 using AirTrafficMonitor.Domain;
@@ -20,7 +21,7 @@ namespace AirTrafficMonitor.Application
             var transponderDataConversion = new TransponderDataConversion(new StringToDateTimeConversion());
             var trackStringRepresentation = new TrackToStringRepresentation();
             var trackLogger = new TrackConsoleLogging(trackStringRepresentation);
-            var controller = new TransponderDataReceivedController(TransponderReceiverFactory.CreateTransponderDataReceiver(), transponderDataConversion, trackLogger, new Airspace(new VelocityCalculator()));
+            var controller = new TransponderDataReceivedController(TransponderReceiverFactory.CreateTransponderDataReceiver(), transponderDataConversion, trackLogger, new Airspace(new VelocityCalculator(), new Coordinates() {X = 10000, Y = 10000}, new Coordinates() {X = 90000, Y = 90000}, 500, 20000), new AirspaceMonitoring());
             controller.StartReceivingTransponderData();
             Console.ReadLine();
         }

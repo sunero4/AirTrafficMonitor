@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AirTrafficMonitor.AirspaceManagement;
 using AirTrafficMonitor.Controllers;
 using AirTrafficMonitor.Converting;
 using AirTrafficMonitor.Domain;
@@ -28,7 +29,7 @@ namespace AirTrafficMonitor.Test.Unit
             _transponderReceiverFake = Substitute.For<ITransponderReceiver>();
             _transponderDataConversionFake = Substitute.For<ITransponderDataConversion>();
             _trackLogging = Substitute.For<ITrackLogging>();
-            _uut = new TransponderDataReceivedController(_transponderReceiverFake, _transponderDataConversionFake, _trackLogging, new Airspace(new VelocityCalculator()));
+            //_uut = new TransponderDataReceivedController(_transponderReceiverFake, _transponderDataConversionFake, _trackLogging, new Airspace(new VelocityCalculator()), new AirspaceMonitoring());
         }
 
         [Test]
