@@ -4,11 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AirTrafficMonitor.Extensions;
+using AirTrafficMonitor.VelocityCalc;
 
 namespace AirTrafficMonitor.Domain
 {
     public class Airspace : IAirspace
     {
+        private readonly IVelocityCalculator _velocityCalculator;
+
+        public Airspace(IVelocityCalculator velocityCalculator)
+        {
+            _velocityCalculator = velocityCalculator;
+            PlanesInAirspace = new Dictionary<string, List<Track>>();
+        }
+
         public Coordinates SoutWestCorner { get; set; }
         public Coordinates NorthEastCorner { get; set; }
         public int LowerAltitudeBoundary { get; set; }
@@ -23,9 +32,9 @@ namespace AirTrafficMonitor.Domain
             }
             else
             {
-                PlanesInAirspace.First(x => x.Key == trackEventArgs.Track.Tag).Value.AddToSlidingWindowList(trackEventArgs.Track, 2);
-                //Her kan den regne hastigheden, og kun her fordi den kun har et punkt i listen hvis den lige er
-                //kommet ind i airspace
+                var planeMovementDetected = PlanesInAirspace.First(x => x.Key == trackEventArgs.Track.Tag).Value;
+                planeMovementDetected.AddToSlidingWindowList(trackEventArgs.Track, 2);
+                _velocityCalculator.CalculateVelocity(planeMovementDetected);
             }
         }
 
