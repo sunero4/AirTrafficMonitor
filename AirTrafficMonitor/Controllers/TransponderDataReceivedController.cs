@@ -16,18 +16,18 @@ namespace AirTrafficMonitor.Controllers
         private readonly ITransponderReceiver _transponderReceiver;
         private readonly ITransponderDataConversion _transponderDataConversion;
         private readonly ITrackLogging _trackLogging;
-        private IAirspace _airspace;
-        private IAirspaceMonitoring _airspaceManagement;
+        private readonly IAirspaceMovementMonitoring _airspaceMovementMonitoring;
+        private readonly IAirspaceMonitoring _airspaceManagement;
 
         public event EventHandler<TrackEventArgs> OnMovementInAirspace;
 
-        public TransponderDataReceivedController(ITransponderReceiver transponderReceiver, ITransponderDataConversion transponderDataConversion, ITrackLogging trackLogging, IAirspace airspace, IAirspaceMonitoring airspaceMonitoring)
+        public TransponderDataReceivedController(ITransponderReceiver transponderReceiver, ITransponderDataConversion transponderDataConversion, ITrackLogging trackLogging, IAirspaceMovementMonitoring airspaceMovementMonitoring, IAirspaceMonitoring airspaceMonitoring)
         {
             _transponderReceiver = transponderReceiver;
             _transponderDataConversion = transponderDataConversion;
             _trackLogging = trackLogging;
-            _airspace = airspace;
-            OnMovementInAirspace += _airspace.OnMovementInAirspaceDetected;
+            _airspaceMovementMonitoring = airspaceMovementMonitoring;
+            OnMovementInAirspace += _airspaceMovementMonitoring.OnMovementInAirspaceDetected;
             _airspaceManagement = airspaceMonitoring;
         }
         public void StartReceivingTransponderData()
@@ -46,7 +46,7 @@ namespace AirTrafficMonitor.Controllers
             {
                 var track = _transponderDataConversion.ConvertData(data);
 
-                if (_airspaceManagement.IsPlaneInAirspace(_airspace, track.Position, track.Altitude))
+                if (_airspaceManagement.IsPlaneInAirspace(track.Position, track.Altitude))
                 {
                     OnMovementInAirspace?.Invoke(this, new TrackEventArgs() { Track = track });
                     _trackLogging.LogTrack(track);

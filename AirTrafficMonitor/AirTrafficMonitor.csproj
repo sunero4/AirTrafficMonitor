@@ -45,7 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AirspaceManagement\AirspaceMonitoring.cs" />
+    <Compile Include="AirspaceManagement\AirspaceMovementMonitoring.cs" />
     <Compile Include="AirspaceManagement\IAirspaceMonitoring.cs" />
+    <Compile Include="AirspaceManagement\IAirspaceMovementMonitoring.cs" />
     <Compile Include="AirspaceManagement\ISeparation.cs" />
     <Compile Include="AirspaceManagement\Separation.cs" />
     <Compile Include="AirspaceManagement\SeparationEventArgs.cs" />
