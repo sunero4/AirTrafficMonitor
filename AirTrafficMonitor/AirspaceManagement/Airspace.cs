@@ -6,11 +6,9 @@ namespace AirTrafficMonitor.AirspaceManagement
 {
     public class Airspace : IAirspace
     {
-        private readonly IVelocityCalculator _velocityCalculator;
 
-        public Airspace(IVelocityCalculator velocityCalculator, Coordinates southWestCorner, Coordinates northEastCorner, int lowerAltitudeBoundary, int upperAltitudeBoundary)
+        public Airspace(Coordinates southWestCorner, Coordinates northEastCorner, int lowerAltitudeBoundary, int upperAltitudeBoundary)
         {
-            _velocityCalculator = velocityCalculator;
             PlanesInAirspace = new Dictionary<string, List<Track>>();
             SoutWestCorner = southWestCorner;
             NorthEastCorner = northEastCorner;

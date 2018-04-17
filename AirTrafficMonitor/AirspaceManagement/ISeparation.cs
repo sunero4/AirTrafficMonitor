@@ -8,6 +8,6 @@ namespace AirTrafficMonitor.AirspaceManagement
     {
         event EventHandler<SeparationEventArgs> SeparationEvent;
 
-        void MonitorSeparation(Dictionary<string, List<Track>> Tracks);
+        void MonitorSeparation(Dictionary<string, List<Track>> tracks);
     }
 }

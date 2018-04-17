@@ -11,18 +11,18 @@ namespace AirTrafficMonitor.AirspaceManagement
     {
         public event EventHandler<SeparationEventArgs> SeparationEvent;
 
-        public void MonitorSeparation(Dictionary<string, List<Track>> Tracks)
+        public void MonitorSeparation(Dictionary<string, List<Track>> tracks)
         {
-            for (int i = 0; i < Tracks.Count; i++)
+            for (int i = 0; i < tracks.Count; i++)
             {
-                for (int j = i+1; j < Tracks.Count-i; j++)
+                for (int j = i+1; j < tracks.Count-i; j++)
                 {
-                    var needSeparation = CheckSeparation(Tracks.ElementAt(i).Value[1].Position.X, Tracks.ElementAt(i).Value[1].Position.Y,
-                        Tracks.ElementAt(i + j).Value[1].Position.X, Tracks.ElementAt(i).Value[1].Position.Y);
+                    var needSeparation = CheckSeparation(tracks.ElementAt(i).Value[1].Position.X, tracks.ElementAt(i).Value[1].Position.Y,
+                        tracks.ElementAt(i + j).Value[1].Position.X, tracks.ElementAt(i).Value[1].Position.Y);
                     if (needSeparation)
                     {
-                        SeparationEvent?.Invoke(this, new SeparationEventArgs() {Track1 = Tracks.ElementAt(i).Value[1].Tag,
-                            TimeOfOccurence = Tracks.ElementAt(i).Value[1].TimeStamp, Track2 = Tracks.ElementAt(j).Value[1].Tag});
+                        SeparationEvent?.Invoke(this, new SeparationEventArgs() {Track1 = tracks.ElementAt(i).Value[1].Tag,
+                            TimeOfOccurence = tracks.ElementAt(i).Value[1].TimeStamp, Track2 = tracks.ElementAt(j).Value[1].Tag});
                     }
                 }
             }

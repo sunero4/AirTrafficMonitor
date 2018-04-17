@@ -21,7 +21,7 @@ namespace AirTrafficMonitor.Application
             var transponderDataConversion = new TransponderDataConversion(new StringToDateTimeConversion());
             var trackStringRepresentation = new TrackToStringRepresentation();
             var trackLogger = new TrackConsoleLogging(trackStringRepresentation);
-            var airspace = new Airspace(new VelocityCalculator(), new Coordinates() {X = 10000, Y = 10000},
+            var airspace = new Airspace(new Coordinates() {X = 10000, Y = 10000},
                 new Coordinates() {X = 90000, Y = 90000}, 500, 20000);
             var controller = new TransponderDataReceivedController(TransponderReceiverFactory.CreateTransponderDataReceiver(), transponderDataConversion, trackLogger, new AirspaceMovementMonitoring(airspace, new VelocityCalculator()), new AirspaceMonitoring(airspace));
             controller.StartReceivingTransponderData();

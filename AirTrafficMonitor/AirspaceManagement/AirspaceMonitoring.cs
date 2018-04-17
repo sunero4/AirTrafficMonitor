@@ -9,7 +9,7 @@ namespace AirTrafficMonitor.AirspaceManagement
 {
     public class AirspaceMonitoring : IAirspaceMonitoring
     {
-        private IAirspace _airspace;
+        private readonly IAirspace _airspace;
 
         public AirspaceMonitoring(IAirspace airspace)
         {
