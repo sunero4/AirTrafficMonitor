@@ -20,6 +20,7 @@ namespace AirTrafficMonitor.Controllers
         private readonly IAirspaceMonitoring _airspaceManagement;
 
         public event EventHandler<TrackEventArgs> OnMovementInAirspace;
+        public event EventHandler<TrackEventArgs> OnPlaneLeavesAirspace; 
 
         public TransponderDataReceivedController(ITransponderReceiver transponderReceiver, ITransponderDataConversion transponderDataConversion, ITrackLogging trackLogging, IAirspaceMovementMonitoring airspaceMovementMonitoring, IAirspaceMonitoring airspaceMonitoring)
         {
@@ -28,6 +29,7 @@ namespace AirTrafficMonitor.Controllers
             _trackLogging = trackLogging;
             _airspaceMovementMonitoring = airspaceMovementMonitoring;
             OnMovementInAirspace += _airspaceMovementMonitoring.OnMovementInAirspaceDetected;
+            OnPlaneLeavesAirspace += _airspaceMovementMonitoring.OnPlaneLeavesAirspace;
             _airspaceManagement = airspaceMonitoring;
         }
         public void StartReceivingTransponderData()
@@ -50,6 +52,11 @@ namespace AirTrafficMonitor.Controllers
                 {
                     OnMovementInAirspace?.Invoke(this, new TrackEventArgs() { Track = track });
                     _trackLogging.LogTrack(track);
+                }
+                else
+                {
+                    //Maybe not best way to do this
+                    OnPlaneLeavesAirspace?.Invoke(this, new TrackEventArgs() {Track = track});
                 }
             }
         }

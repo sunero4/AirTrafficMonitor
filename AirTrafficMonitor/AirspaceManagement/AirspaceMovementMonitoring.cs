@@ -29,5 +29,13 @@ namespace AirTrafficMonitor.AirspaceManagement
                 _velocityCalculator.CalculateVelocity(planeMovementDetected);
             }
         }
+
+        public void OnPlaneLeavesAirspace(object sender, TrackEventArgs trackEventArgs)
+        {
+            if (_airspace.PlanesInAirspace.ContainsKey(trackEventArgs.Track.Tag))
+            {
+                _airspace.PlanesInAirspace.Remove(trackEventArgs.Track.Tag);
+            }
+        }
     }
 }
