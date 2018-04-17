@@ -19,7 +19,7 @@ namespace AirTrafficMonitor.VelocityCalc
             double HorizontalVelocity = AltitudeDifference / Timedifference;
             double VerticalVelocity = (PositionDifferenceX + PositionDifferenceY) / Timedifference;
 
-            Tracklist[1].Velocity = Math.Sqrt(Math.Pow(HorizontalVelocity, 2) + Math.Pow(VerticalVelocity, 2));
+            Tracklist[1].Velocity = Math.Round(Math.Sqrt(Math.Pow(HorizontalVelocity, 2) + Math.Pow(VerticalVelocity, 2)));
         }
     }
 }

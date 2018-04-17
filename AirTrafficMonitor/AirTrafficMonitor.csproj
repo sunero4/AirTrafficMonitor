@@ -46,6 +46,9 @@
   <ItemGroup>
     <Compile Include="AirspaceManagement\AirspaceMonitoring.cs" />
     <Compile Include="AirspaceManagement\IAirspaceMonitoring.cs" />
+    <Compile Include="AirspaceManagement\ISeparation.cs" />
+    <Compile Include="AirspaceManagement\Separation.cs" />
+    <Compile Include="AirspaceManagement\SeparationEventArgs.cs" />
     <Compile Include="Controllers\TransponderDataReceivedController.cs" />
     <Compile Include="AirspaceManagement\Airspace.cs" />
     <Compile Include="Domain\Coordinates.cs" />
