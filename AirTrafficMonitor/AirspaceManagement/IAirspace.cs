@@ -10,6 +10,5 @@ namespace AirTrafficMonitor.AirspaceManagement
         Dictionary<string, List<Track>> PlanesInAirspace { get; set; }
         Coordinates SoutWestCorner { get; set; }
         int UpperAltitudeBoundary { get; set; }
-        void OnMovementInAirspaceDetected(object sender, TrackEventArgs trackEventArgs);
     }
 }
