@@ -18,7 +18,7 @@ namespace AirTrafficMonitor.AirspaceManagement
         public Separation(ISeparationConsoleLogging separationConsoleLogging)
         {
             _separationConsoleLogging = separationConsoleLogging;
-            SeparationEvent += _separationConsoleLogging.
+            SeparationEvent += _separationConsoleLogging.LogSeparation;
         }
 
         public void MonitorSeparation(Dictionary<string, List<Track>> tracks)

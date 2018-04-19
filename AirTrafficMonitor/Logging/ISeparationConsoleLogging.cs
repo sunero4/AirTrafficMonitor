@@ -1,7 +1,15 @@
-﻿namespace AirTrafficMonitor.Logging
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AirTrafficMonitor.Domain;
+using AirTrafficMonitor.AirspaceManagement;
+using System;
+
+namespace AirTrafficMonitor.Logging
 {
     public interface ISeparationConsoleLogging
     {
-        void LogSeparation(string Track1, string Track2, )
+        void LogSeparation(object sender, SeparationEventArgs separationEvent);
     }
 }
