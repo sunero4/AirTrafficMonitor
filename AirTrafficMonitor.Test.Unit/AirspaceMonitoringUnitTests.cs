@@ -24,12 +24,14 @@ namespace AirTrafficMonitor.Test.Unit
         {
             _southWestCorner = new Coordinates(){X = 10000,Y = 10000};
             _northEastCorner = new Coordinates(){X = 90000, Y = 90000};
+          
             _airspace = Substitute.For<IAirspace>();
             uut = new AirspaceMonitoring(_airspace);
             _airspace.LowerAltitudeBoundary.Returns(500);
             _airspace.UpperAltitudeBoundary.Returns(20000);
             _airspace.SoutWestCorner.Returns(_southWestCorner);
             _airspace.NorthEastCorner.Returns(_northEastCorner);
+            uut = new AirspaceMonitoring(_airspace);
         }
 
         [TestCase(10000,40000,5000,true)]

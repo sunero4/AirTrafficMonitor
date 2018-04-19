@@ -36,12 +36,15 @@ namespace AirTrafficMonitor.Test.Unit
                         Y = 2000
                     },
                     Tag = "ABC987",
-                    TimeStamp = new DateTime(2012, 08, 15, 18, 45, 20, 555)
+                    TimeStamp = new DateTime(2012, 08, 15, 18, 45, 20, 555),
+                    Velocity = 300
                 },
                 StringTest = "Tag: ABC987 \n" +
             "Position: X: 1000, Y: 2000 \n" +
             "Altitude: 8000 \n" +
-            "Timestamp: 15-08-2012 18:45:20 \n"
+            "Timestamp: 15-08-2012 18:45:20 \n" +
+            "Velocity: 300"
+
             },
             new TestData()
             {
@@ -54,12 +57,14 @@ namespace AirTrafficMonitor.Test.Unit
                         Y = 4000
                     },
                     Tag = "DEF475",
-                    TimeStamp = new DateTime(2013, 02, 20, 12, 15, 50, 840)
+                    TimeStamp = new DateTime(2013, 02, 20, 12, 15, 50, 840),
+                    Velocity = 500
                 },
                 StringTest = "Tag: DEF475 \n" +
                     "Position: X: 3000, Y: 4000 \n" +
                     "Altitude: 12000 \n" +
-                    "Timestamp: 20-02-2013 12:15:50 \n"
+                    "Timestamp: 20-02-2013 12:15:50 \n" +
+                    "Velocity: 500"
             }
 
         };
