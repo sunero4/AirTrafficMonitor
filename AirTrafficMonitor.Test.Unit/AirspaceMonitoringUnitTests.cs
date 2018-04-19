@@ -24,8 +24,8 @@ namespace AirTrafficMonitor.Test.Unit
         {
             _southWestCorner = new Coordinates(){X = 10000,Y = 10000};
             _northEastCorner = new Coordinates(){X = 90000, Y = 90000};
-            uut = new AirspaceMonitoring();
             _airspace = Substitute.For<IAirspace>();
+            uut = new AirspaceMonitoring(_airspace);
             _airspace.LowerAltitudeBoundary.Returns(500);
             _airspace.UpperAltitudeBoundary.Returns(20000);
             _airspace.SoutWestCorner.Returns(_southWestCorner);
@@ -48,7 +48,7 @@ namespace AirTrafficMonitor.Test.Unit
         {
             Coordinates planeCoordinates = new Coordinates(){X = planeX, Y = planeY};
 
-            Assert.That(uut.IsPlaneInAirspace(_airspace,planeCoordinates,planeAltitude),Is.EqualTo(Result));
+            Assert.That(uut.IsPlaneInAirspace(planeCoordinates,planeAltitude),Is.EqualTo(Result));
             
         }
     }
