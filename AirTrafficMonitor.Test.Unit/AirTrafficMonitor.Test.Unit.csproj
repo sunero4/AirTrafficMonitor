@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AirspaceMonitoringUnitTests.cs" />
+    <Compile Include="AirspaceMovementMonitoringUnitTests.cs" />
     <Compile Include="ExceptionUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringToDateTimeConversionUnitTests.cs" />
