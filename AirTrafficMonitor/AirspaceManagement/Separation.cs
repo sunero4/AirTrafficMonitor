@@ -4,12 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AirTrafficMonitor.Domain;
+using AirTrafficMonitor.Logging;
+
 
 namespace AirTrafficMonitor.AirspaceManagement
 {
     public class Separation : ISeparation
     {
+        private readonly ISeparationConsoleLogging _separationConsoleLogging;
+
         public event EventHandler<SeparationEventArgs> SeparationEvent;
+
+        public Separation(ISeparationConsoleLogging separationConsoleLogging)
+        {
+            _separationConsoleLogging = separationConsoleLogging;
+            SeparationEvent += _separationConsoleLogging.
+        }
 
         public void MonitorSeparation(Dictionary<string, List<Track>> tracks)
         {
@@ -29,7 +39,6 @@ namespace AirTrafficMonitor.AirspaceManagement
         }
 
 
-
         private bool CheckSeparation(double X1, double Y1, double X2, double Y2)
         {
             var xAfstand = Math.Abs(X1 - X2);
@@ -43,7 +52,5 @@ namespace AirTrafficMonitor.AirspaceManagement
                 return false;
             }
         }
-
-
     }
 }

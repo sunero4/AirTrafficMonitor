@@ -52,6 +52,7 @@ namespace AirTrafficMonitor.Controllers
                     _trackLogging.LogTrack(track);
                 }
             }
+            _airspaceMovementMonitoring.CheckSeparation();
         }
     }
 }

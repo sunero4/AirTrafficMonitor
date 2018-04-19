@@ -59,7 +59,9 @@
     <Compile Include="AirspaceManagement\IAirspace.cs" />
     <Compile Include="Domain\TrackEventArgs.cs" />
     <Compile Include="Extensions\ListSlidingWindowExtension.cs" />
+    <Compile Include="Logging\ISeparationConsoleLogging.cs" />
     <Compile Include="Logging\ITrackLogging.cs" />
+    <Compile Include="Logging\SeparationConsoleLogging.cs" />
     <Compile Include="Logging\TrackConsoleLogging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Converting\StringToDateTimeConversion.cs" />
