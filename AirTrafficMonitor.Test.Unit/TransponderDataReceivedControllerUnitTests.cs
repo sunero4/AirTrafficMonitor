@@ -51,7 +51,7 @@ namespace AirTrafficMonitor.Test.Unit
         }
 
         [Test]
-        public void OnTransPonderDataReceived_CallsConversionAndTrackLogging_CorrectMethodCallsAreReceived()
+        public void OnTransPonderDataReady_CallsConversionAndTrackLogging_CorrectMethodCallsAreReceived()
         {
             Coordinates position = new Coordinates() { X = 14000, Y = 15000 };
             var fakeData = new List<string>() {"test"};
@@ -72,6 +72,22 @@ namespace AirTrafficMonitor.Test.Unit
             //I guess
             _transponderDataConversionFake.Received().ConvertData("test");
             _trackLogging.ReceivedWithAnyArgs().LogTrack(new Track());
+        }
+
+        [Test]
+        public void OnTransponderDataReady_AirplaneIsNotInAirspace_CallsCorrectMethodOnAirspaceMovementMonitoring()
+        {
+            _airspaceMonitoring.IsPlaneInAirspace(new Coordinates(), 1000).ReturnsForAnyArgs(false);
+            _transponderDataConversionFake.ConvertData("test").Returns(new Track()
+            {
+                Altitude = 10000,
+                Position = new Coordinates() { X = 1, Y = 2 },
+                Tag = "ABC123",
+                TimeStamp = DateTime.Now,
+                Velocity = 400
+            });
+            _uut.OnTransponderDataReady(this, new RawTransponderDataEventArgs(new List<string>() { "test" }));
+            _airspaceMovementMonitoring.ReceivedWithAnyArgs().OnPlaneNotInAirspace(this, new TrackEventArgs());
         }
     }
 }
