@@ -30,7 +30,7 @@ namespace AirTrafficMonitor.AirspaceManagement
             }
         }
 
-        public void OnPlaneLeavesAirspace(object sender, TrackEventArgs trackEventArgs)
+        public void OnPlaneNotInAirspace(object sender, TrackEventArgs trackEventArgs)
         {
             if (_airspace.PlanesInAirspace.ContainsKey(trackEventArgs.Track.Tag))
             {
