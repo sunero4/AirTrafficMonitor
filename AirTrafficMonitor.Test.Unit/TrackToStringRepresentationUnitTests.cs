@@ -15,7 +15,6 @@ namespace AirTrafficMonitor.Test.Unit
     public class TrackToStringRepresentationUnitTests
     {
         private TrackToStringRepresentation _uut;
-        private ITransponderDataConversion _transponderData;
 
         public class TestData
         {
@@ -68,7 +67,6 @@ namespace AirTrafficMonitor.Test.Unit
         public void SetUp()
         {
             _uut = new TrackToStringRepresentation();
-            _transponderData = Substitute.For<ITransponderDataConversion>();
         }
 
         [Test]

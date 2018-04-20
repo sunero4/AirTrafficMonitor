@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\TransponderDataReceivedController.cs" />
+    <Compile Include="CourseCalculations\DegreesCalculator.cs" />
+    <Compile Include="CourseCalculations\IDegreesCalculator.cs" />
     <Compile Include="Domain\Coordinates.cs" />
     <Compile Include="Converting\IStringToDateTimeConversion.cs" />
     <Compile Include="Converting\ITransponderDataConversion.cs" />
