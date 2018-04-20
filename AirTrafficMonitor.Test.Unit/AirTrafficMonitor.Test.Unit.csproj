@@ -60,6 +60,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+
+    <Compile Include="CalculateDegreesWithoutDecimalsUnitTests.cs" />
     <Compile Include="AirspaceMonitoringUnitTests.cs" />
     <Compile Include="AirspaceMovementMonitoringUnitTests.cs" />
     <Compile Include="ExceptionUnitTest.cs" />
