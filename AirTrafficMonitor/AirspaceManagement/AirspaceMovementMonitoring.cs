@@ -24,7 +24,7 @@ namespace AirTrafficMonitor.AirspaceManagement
             }
             else
             {
-                var planeMovementDetected = _airspace.PlanesInAirspace.First(x => x.Key == trackEventArgs.Track.Tag).Value;
+                var planeMovementDetected = _airspace.PlanesInAirspace[trackEventArgs.Track.Tag];
                 planeMovementDetected.AddToSlidingWindowList(trackEventArgs.Track, 2);
                 _velocityCalculator.CalculateVelocity(planeMovementDetected);
             }
