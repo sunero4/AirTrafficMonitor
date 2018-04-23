@@ -6,7 +6,6 @@ namespace AirTrafficMonitor.AirspaceManagement
     {
         void OnMovementInAirspaceDetected(object sender, TrackEventArgs trackEventArgs);
 
-        void CheckSeparation();
         void OnPlaneNotInAirspace(object sender, TrackEventArgs trackEventArgs);
     }
 }
