@@ -27,7 +27,7 @@ namespace AirTrafficMonitor.Application
             var velocityCalculator = new VelocityCalculator();
             var degreesCalculator = new DegreesCalculatorWithoutDecimals();
             var airspaceMovementMonitoring = new AirspaceMovementMonitoring(airspace, velocityCalculator, degreesCalculator, trackLogging);
-            var separation = new Separation();
+            var separation = new Separation(new SeparationConsoleLogging());
             var stringToDateTimeConversion = new StringToDateTimeConversion();
             var airspaceMonitoring = new AirspaceMonitoring(airspace, airspaceMovementMonitoring);
             var transponderDataConversion = new TransponderDataConversion(stringToDateTimeConversion, airspaceMonitoring);

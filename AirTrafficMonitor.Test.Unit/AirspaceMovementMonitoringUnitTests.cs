@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AirTrafficMonitor.AirspaceManagement;
+using AirTrafficMonitor.CourseCalculations;
 using AirTrafficMonitor.Domain;
+using AirTrafficMonitor.Logging;
 using AirTrafficMonitor.VelocityCalc;
 using NSubstitute;
 using NUnit.Framework;
@@ -15,8 +17,10 @@ namespace AirTrafficMonitor.Test.Unit
     class AirspaceMovementMonitoringUnitTests
     {
         private AirspaceMovementMonitoring _uut;
-        private IAirspace _airspace;
+        private Airspace _airspace;
         private IVelocityCalculator _velocityCalculatorFake;
+        private IDegreesCalculator _degreesCalculatorFake;
+        private ITrackLogging _trackLoggingFake;
         private Track _track;
         [SetUp]
         public void Setup()
@@ -27,7 +31,9 @@ namespace AirTrafficMonitor.Test.Unit
             //C#'s collections are working as intended.
             _airspace = new Airspace(new Coordinates() {X = 10000, Y = 10000}, new Coordinates() {X = 90000, Y = 90000}, 500, 10000);
             _velocityCalculatorFake = Substitute.For<IVelocityCalculator>();
-            _uut = new AirspaceMovementMonitoring(_airspace, _velocityCalculatorFake);
+            _degreesCalculatorFake = Substitute.For<IDegreesCalculator>();
+            _trackLoggingFake = Substitute.For<ITrackLogging>();
+            _uut = new AirspaceMovementMonitoring(_airspace, _velocityCalculatorFake, _degreesCalculatorFake, _trackLoggingFake);
             _track = new Track()
             {
                 Altitude = 1000,

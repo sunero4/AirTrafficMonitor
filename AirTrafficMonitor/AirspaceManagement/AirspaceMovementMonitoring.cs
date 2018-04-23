@@ -10,12 +10,12 @@ namespace AirTrafficMonitor.AirspaceManagement
 {
     public class AirspaceMovementMonitoring : IAirspaceMovementMonitoring
     {
-        private readonly IAirspace _airspace;
+        private readonly Airspace _airspace;
         private readonly IVelocityCalculator _velocityCalculator;
         private readonly IDegreesCalculator _degreesCalculator;
         private readonly ITrackLogging _trackLogging;
 
-        public AirspaceMovementMonitoring(IAirspace airspace, IVelocityCalculator velocityCalculator, IDegreesCalculator degreesCalculator, ITrackLogging trackLogging)
+        public AirspaceMovementMonitoring(Airspace airspace, IVelocityCalculator velocityCalculator, IDegreesCalculator degreesCalculator, ITrackLogging trackLogging)
         {
             _airspace = airspace;
             _velocityCalculator = velocityCalculator;

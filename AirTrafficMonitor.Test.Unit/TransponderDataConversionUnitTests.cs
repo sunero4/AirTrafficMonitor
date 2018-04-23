@@ -1,4 +1,5 @@
 ﻿using System;
+using AirTrafficMonitor.AirspaceManagement;
 using AirTrafficMonitor.Converting;
 using AirTrafficMonitor.Domain;
 using AirTrafficMonitor.Exceptions;
@@ -17,6 +18,7 @@ namespace AirTrafficMonitor.Test.Unit
         }
 
         private IStringToDateTimeConversion _stringToDateTimeConversionFake;
+        private IAirspaceMonitoring _airspaceMonitoringFake;
         private TransponderDataConversion _uut;
 
         //Using ValueSource as only primitive types can be passed in TestCases
@@ -59,45 +61,53 @@ namespace AirTrafficMonitor.Test.Unit
         {
             //Datetime conversion is tested separately in StringToDateTimeConversionUnitTests.cs
             _stringToDateTimeConversionFake = Substitute.For<IStringToDateTimeConversion>();
-            _uut = new TransponderDataConversion(_stringToDateTimeConversionFake);
+            _airspaceMonitoringFake = Substitute.For<IAirspaceMonitoring>();
+            _uut = new TransponderDataConversion(_stringToDateTimeConversionFake, _airspaceMonitoringFake);
         }
 
         [Test]
-        public void ConvertData_ValidStringData_ReturnsTrackWithCorrectAltitude([ValueSource(nameof(_validTestData))]TestData testData)
+        public void ConvertRawDataToTrack_ValidStringData_ReturnsTrackWithCorrectAltitude([ValueSource(nameof(_validTestData))]TestData testData)
         {
-            var convertedData = _uut.ConvertData(testData.TransponderData);
+            var convertedData = _uut.ConvertRawDataToTrack(testData.TransponderData);
             Assert.That(convertedData.Altitude, Is.EqualTo(testData.ExpectedTrack.Altitude));
         }
 
         [Test]
-        public void ConvertData_ValidStringData_ReturnsTrackWithCorrectXCoordinate(
+        public void ConvertRawDataToTrack_ValidStringData_ReturnsTrackWithCorrectXCoordinate(
             [ValueSource(nameof(_validTestData))] TestData testData)
         {
-            var convertedData = _uut.ConvertData(testData.TransponderData);
+            var convertedData = _uut.ConvertRawDataToTrack(testData.TransponderData);
             Assert.That(convertedData.Position.X, Is.EqualTo(testData.ExpectedTrack.Position.X));
         }
 
         [Test]
-        public void ConvertData_ValidStringData_ReturnsTrackWithCorrectYCoordinate(
+        public void ConvertRawDataToTrack_ValidStringData_ReturnsTrackWithCorrectYCoordinate(
             [ValueSource(nameof(_validTestData))] TestData testData)
         {
-            var convertedData = _uut.ConvertData(testData.TransponderData);
+            var convertedData = _uut.ConvertRawDataToTrack(testData.TransponderData);
             Assert.That(convertedData.Position.Y, Is.EqualTo(testData.ExpectedTrack.Position.Y));
         }
 
         [Test]
-        public void ConvertData_ValidStringData_ReturnsTrackWithCorrectTag(
+        public void ConvertRawDataToTrack_ValidStringData_ReturnsTrackWithCorrectTag(
             [ValueSource(nameof(_validTestData))] TestData testData)
         {
-            var convertedData = _uut.ConvertData(testData.TransponderData);
+            var convertedData = _uut.ConvertRawDataToTrack(testData.TransponderData);
             Assert.That(convertedData.Tag, Is.EqualTo(testData.ExpectedTrack.Tag));
         }
 
         [Test]
-        public void ConvertData_ValidStringData_CorrectMethodCallToStringToDateTimeConversionIsReceived()
+        public void ConvertRawDataToTrack_ValidStringData_CorrectMethodCallToStringToDateTimeConversionIsReceived()
         {
-            var convertedData = _uut.ConvertData("ABCD1234;0;0;9999;20181207112359123");
+            var convertedData = _uut.ConvertRawDataToTrack("ABCD1234;0;0;9999;20181207112359123");
             _stringToDateTimeConversionFake.Received().ConvertToDateTime("20181207112359123");
+        }
+
+        [Test]
+        public void ConvertData_CallsAirspaceMonitoring_CorrectMethodCallIsReceived()
+        {
+            _uut.ConvertData("ABCD1234;0;0;9999;20181207112359123");
+            _airspaceMonitoringFake.ReceivedWithAnyArgs().CheckIfPlaneIsInAirspace(new Track());
         }
 
         [Test]

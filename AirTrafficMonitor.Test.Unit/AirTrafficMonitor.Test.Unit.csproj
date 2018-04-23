@@ -60,7 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-
     <Compile Include="CalculateDegreesWithoutDecimalsUnitTests.cs" />
     <Compile Include="AirspaceMonitoringUnitTests.cs" />
     <Compile Include="AirspaceMovementMonitoringUnitTests.cs" />
@@ -70,7 +69,7 @@
     <Compile Include="StringToDateTimeConversionUnitTests.cs" />
     <Compile Include="TrackToStringRepresentationUnitTests.cs" />
     <Compile Include="TransponderDataConversionUnitTests.cs" />
-    <Compile Include="TransponderDataReceivedControllerUnitTests.cs" />
+    <Compile Include="TransponderDataReceiverUnitTests.cs" />
     <Compile Include="VelocityCalculatorUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>

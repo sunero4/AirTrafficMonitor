@@ -36,13 +36,15 @@ namespace AirTrafficMonitor.Test.Unit
                     },
                     Tag = "ABC987",
                     TimeStamp = new DateTime(2012, 08, 15, 18, 45, 20, 555),
-                    Velocity = 300
+                    Velocity = 300,
+                    Course = 50
                 },
                 StringTest = "Tag: ABC987 \n" +
             "Position: X: 1000, Y: 2000 \n" +
             "Altitude: 8000 \n" +
             "Timestamp: 15-08-2012 18:45:20 \n" +
-            "Velocity: 300"
+            "Velocity: 300 m/s \n" +
+            "Course: 50 degrees"
 
             },
             new TestData()
@@ -57,13 +59,15 @@ namespace AirTrafficMonitor.Test.Unit
                     },
                     Tag = "DEF475",
                     TimeStamp = new DateTime(2013, 02, 20, 12, 15, 50, 840),
-                    Velocity = 500
+                    Velocity = 500,
+                    Course = 10
                 },
                 StringTest = "Tag: DEF475 \n" +
                     "Position: X: 3000, Y: 4000 \n" +
                     "Altitude: 12000 \n" +
                     "Timestamp: 20-02-2013 12:15:50 \n" +
-                    "Velocity: 500"
+                    "Velocity: 500 m/s \n" +
+                    "Course: 10 degrees"
             }
 
         };
@@ -75,7 +79,7 @@ namespace AirTrafficMonitor.Test.Unit
         }
 
         [Test]
-        public void ReturnTrackWithCorrectFormatdafdgaerg([ValueSource(nameof(_dataUnderTest))]TestData testData)
+        public void GenerateStringRepresentation_ValidTestData_ConvertsToExpectedStringRepresentation([ValueSource(nameof(_dataUnderTest))]TestData testData)
         {
             var stringTest = _uut.GenerateStringRepresentation(testData.TestTrack);
             Assert.That(stringTest, Is.EqualTo(testData.StringTest));
