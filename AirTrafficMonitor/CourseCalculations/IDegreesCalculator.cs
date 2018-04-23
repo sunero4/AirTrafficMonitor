@@ -5,6 +5,6 @@ namespace AirTrafficMonitor.CourseCalculations
 {
     public interface IDegreesCalculator
     {
-        double CalculateDegrees(List<Track> tracks);
+        void CalculateDegrees(List<Track> tracks);
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AirTrafficMonitor.AirspaceManagement;
 using AirTrafficMonitor.Controllers;
 using AirTrafficMonitor.Converting;
+using AirTrafficMonitor.CourseCalculations;
 using AirTrafficMonitor.Domain;
 using AirTrafficMonitor.Logging;
 using AirTrafficMonitor.Rendering;
@@ -23,7 +24,7 @@ namespace AirTrafficMonitor.Application
             var trackLogger = new TrackConsoleLogging(trackStringRepresentation);
             var airspace = new Airspace(new Coordinates() {X = 10000, Y = 10000},
                 new Coordinates() {X = 90000, Y = 90000}, 500, 20000);
-            var controller = new TransponderDataReceivedController(TransponderReceiverFactory.CreateTransponderDataReceiver(), transponderDataConversion, trackLogger, new AirspaceMovementMonitoring(airspace, new VelocityCalculator()), new AirspaceMonitoring(airspace));
+            var controller = new TransponderDataReceivedController(TransponderReceiverFactory.CreateTransponderDataReceiver(), transponderDataConversion, trackLogger, new AirspaceMovementMonitoring(airspace, new VelocityCalculator(), new DegreesCalculatorWithoutDecimals()), new AirspaceMonitoring(airspace));
             controller.StartReceivingTransponderData();
             Console.ReadLine();
         }
