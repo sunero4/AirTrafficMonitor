@@ -17,12 +17,19 @@ namespace AirTrafficMonitor.AirspaceManagement
             {
                 for (int j = i+1; j < tracks.Count-i; j++)
                 {
-                    var needSeparation = CheckSeparation(tracks.ElementAt(i).Value[1].Position.X, tracks.ElementAt(i).Value[1].Position.Y,
-                        tracks.ElementAt(i + j).Value[1].Position.X, tracks.ElementAt(i).Value[1].Position.Y);
-                    if (needSeparation)
+                    if (tracks.ElementAt(i).Value.Count > 1 && tracks.ElementAt(j).Value.Count > 1 && tracks.ElementAt(i + j).Value.Count > 1)
                     {
-                        SeparationEvent?.Invoke(this, new SeparationEventArgs() {Track1 = tracks.ElementAt(i).Value[1].Tag,
-                            TimeOfOccurence = tracks.ElementAt(i).Value[1].TimeStamp, Track2 = tracks.ElementAt(j).Value[1].Tag});
+                        var needSeparation = CheckSeparation(tracks.ElementAt(i).Value[1].Position.X, tracks.ElementAt(i).Value[1].Position.Y,
+                            tracks.ElementAt(i + j).Value[1].Position.X, tracks.ElementAt(i).Value[1].Position.Y);
+                        if (needSeparation)
+                        {
+                            SeparationEvent?.Invoke(this, new SeparationEventArgs()
+                            {
+                                Track1 = tracks.ElementAt(i).Value[1].Tag,
+                                TimeOfOccurence = tracks.ElementAt(i).Value[1].TimeStamp,
+                                Track2 = tracks.ElementAt(j).Value[1].Tag
+                            });
+                        }
                     }
                 }
             }

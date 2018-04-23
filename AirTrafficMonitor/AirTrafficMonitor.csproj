@@ -51,7 +51,7 @@
     <Compile Include="AirspaceManagement\ISeparation.cs" />
     <Compile Include="AirspaceManagement\Separation.cs" />
     <Compile Include="AirspaceManagement\SeparationEventArgs.cs" />
-    <Compile Include="Controllers\TransponderDataReceivedController.cs" />
+    <Compile Include="Controllers\TransponderDataReceiver.cs" />
     <Compile Include="CourseCalculations\DegreesCalculator.cs" />
     <Compile Include="CourseCalculations\IDegreesCalculator.cs" />
     <Compile Include="AirspaceManagement\Airspace.cs" />

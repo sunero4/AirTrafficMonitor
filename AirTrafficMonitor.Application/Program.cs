@@ -19,13 +19,22 @@ namespace AirTrafficMonitor.Application
     {
         static void Main(string[] args)
         {
-            var transponderDataConversion = new TransponderDataConversion(new StringToDateTimeConversion());
-            var trackStringRepresentation = new TrackToStringRepresentation();
-            var trackLogger = new TrackConsoleLogging(trackStringRepresentation);
-            var airspace = new Airspace(new Coordinates() {X = 10000, Y = 10000},
-                new Coordinates() {X = 90000, Y = 90000}, 500, 20000);
-            var controller = new TransponderDataReceivedController(TransponderReceiverFactory.CreateTransponderDataReceiver(), transponderDataConversion, trackLogger, new AirspaceMovementMonitoring(airspace, new VelocityCalculator(), new DegreesCalculatorWithoutDecimals()), new AirspaceMonitoring(airspace));
-            controller.StartReceivingTransponderData();
+            var airspace = new Airspace(new Coordinates() { X = 10000, Y = 10000 },
+                new Coordinates() { X = 90000, Y = 90000 }, 500, 20000);
+
+            var trackToStringRepresentation = new TrackToStringRepresentation();
+            var trackLogging = new TrackConsoleLogging(trackToStringRepresentation);
+            var velocityCalculator = new VelocityCalculator();
+            var degreesCalculator = new DegreesCalculatorWithoutDecimals();
+            var airspaceMovementMonitoring = new AirspaceMovementMonitoring(airspace, velocityCalculator, degreesCalculator, trackLogging);
+            var separation = new Separation();
+            var stringToDateTimeConversion = new StringToDateTimeConversion();
+            var airspaceMonitoring = new AirspaceMonitoring(airspace, airspaceMovementMonitoring);
+            var transponderDataConversion = new TransponderDataConversion(stringToDateTimeConversion, airspaceMonitoring);
+            var transponderDataReceiver = new TransponderDataReceiver(
+                TransponderReceiverFactory.CreateTransponderDataReceiver(), transponderDataConversion, separation, airspace);
+
+            transponderDataReceiver.StartReceivingData();
             Console.ReadLine();
         }
     }
