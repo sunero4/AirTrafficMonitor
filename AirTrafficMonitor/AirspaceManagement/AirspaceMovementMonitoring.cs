@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AirTrafficMonitor.CourseCalculations;
 using AirTrafficMonitor.Domain;
 using AirTrafficMonitor.Extensions;
 using AirTrafficMonitor.VelocityCalc;
@@ -11,12 +12,14 @@ namespace AirTrafficMonitor.AirspaceManagement
         private readonly IAirspace _airspace;
         private readonly IVelocityCalculator _velocityCalculator;
         private readonly ISeparation _separation;
+        private IDegreesCalculator _degreesCalculator;
 
-        public AirspaceMovementMonitoring(IAirspace airspace, IVelocityCalculator velocityCalculator, ISeparation separation)
+        public AirspaceMovementMonitoring(IAirspace airspace, IVelocityCalculator velocityCalculator, ISeparation separation, IDegreesCalculator degreesCalculator)
         {
             _airspace = airspace;
             _velocityCalculator = velocityCalculator;
             _separation = separation;
+            _degreesCalculator = degreesCalculator;
         }
 
         public void OnMovementInAirspaceDetected(object sender, TrackEventArgs trackEventArgs)
@@ -27,9 +30,18 @@ namespace AirTrafficMonitor.AirspaceManagement
             }
             else
             {
-                var planeMovementDetected = _airspace.PlanesInAirspace.First(x => x.Key == trackEventArgs.Track.Tag).Value;
+                var planeMovementDetected = _airspace.PlanesInAirspace[trackEventArgs.Track.Tag];
                 planeMovementDetected.AddToSlidingWindowList(trackEventArgs.Track, 2);
                 _velocityCalculator.CalculateVelocity(planeMovementDetected);
+                _degreesCalculator.CalculateDegrees(planeMovementDetected);
+            }
+        }
+
+        public void OnPlaneNotInAirspace(object sender, TrackEventArgs trackEventArgs)
+        {
+            if (_airspace.PlanesInAirspace.ContainsKey(trackEventArgs.Track.Tag))
+            {
+                _airspace.PlanesInAirspace.Remove(trackEventArgs.Track.Tag);
             }
         }
 

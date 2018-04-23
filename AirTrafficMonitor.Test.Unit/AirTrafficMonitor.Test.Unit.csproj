@@ -60,13 +60,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+
+    <Compile Include="CalculateDegreesWithoutDecimalsUnitTests.cs" />
     <Compile Include="AirspaceMonitoringUnitTests.cs" />
+    <Compile Include="AirspaceMovementMonitoringUnitTests.cs" />
     <Compile Include="ExceptionUnitTest.cs" />
+    <Compile Include="ListSlidingWindowExtensionUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringToDateTimeConversionUnitTests.cs" />
     <Compile Include="TrackToStringRepresentationUnitTests.cs" />
     <Compile Include="TransponderDataConversionUnitTests.cs" />
     <Compile Include="TransponderDataReceivedControllerUnitTests.cs" />
+    <Compile Include="VelocityCalculatorUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AirTrafficMonitor\AirTrafficMonitor.csproj">

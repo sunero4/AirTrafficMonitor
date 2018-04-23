@@ -10,7 +10,8 @@ namespace AirTrafficMonitor.Rendering
                                        $"Position: X: {track.Position.X}, Y: {track.Position.Y} \n" +
                                        $"Altitude: {track.Altitude} \n" +
                                        $"Timestamp: {track.TimeStamp} \n" +
-                                       $"Velocity: {track.Velocity}";
+                                       $"Velocity: {track.Velocity} m/s \n" +
+                                       $"Course: {track.Course} degrees";
             return stringRepresentation;
         }
     }

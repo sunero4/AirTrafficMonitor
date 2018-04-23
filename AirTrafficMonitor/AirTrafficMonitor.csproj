@@ -52,6 +52,8 @@
     <Compile Include="AirspaceManagement\Separation.cs" />
     <Compile Include="AirspaceManagement\SeparationEventArgs.cs" />
     <Compile Include="Controllers\TransponderDataReceivedController.cs" />
+    <Compile Include="CourseCalculations\DegreesCalculator.cs" />
+    <Compile Include="CourseCalculations\IDegreesCalculator.cs" />
     <Compile Include="AirspaceManagement\Airspace.cs" />
     <Compile Include="Domain\Coordinates.cs" />
     <Compile Include="Converting\IStringToDateTimeConversion.cs" />
