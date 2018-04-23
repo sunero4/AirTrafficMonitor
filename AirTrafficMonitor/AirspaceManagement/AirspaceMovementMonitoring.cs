@@ -3,6 +3,7 @@ using System.Linq;
 using AirTrafficMonitor.CourseCalculations;
 using AirTrafficMonitor.Domain;
 using AirTrafficMonitor.Extensions;
+using AirTrafficMonitor.Logging;
 using AirTrafficMonitor.VelocityCalc;
 
 namespace AirTrafficMonitor.AirspaceManagement
@@ -11,17 +12,16 @@ namespace AirTrafficMonitor.AirspaceManagement
     {
         private readonly IAirspace _airspace;
         private readonly IVelocityCalculator _velocityCalculator;
-        private readonly ISeparation _separation;
-        private IDegreesCalculator _degreesCalculator;
+        private readonly IDegreesCalculator _degreesCalculator;
+        private readonly ITrackLogging _trackLogging;
 
-        public AirspaceMovementMonitoring(IAirspace airspace, IVelocityCalculator velocityCalculator, ISeparation separation, IDegreesCalculator degreesCalculator)
+        public AirspaceMovementMonitoring(IAirspace airspace, IVelocityCalculator velocityCalculator, IDegreesCalculator degreesCalculator, ITrackLogging trackLogging)
         {
             _airspace = airspace;
             _velocityCalculator = velocityCalculator;
-            _separation = separation;
             _degreesCalculator = degreesCalculator;
+            _trackLogging = trackLogging;
         }
-
         public void OnMovementInAirspaceDetected(object sender, TrackEventArgs trackEventArgs)
         {
             if (!_airspace.PlanesInAirspace.ContainsKey(trackEventArgs.Track.Tag))
@@ -35,6 +35,7 @@ namespace AirTrafficMonitor.AirspaceManagement
                 _velocityCalculator.CalculateVelocity(planeMovementDetected);
                 _degreesCalculator.CalculateDegrees(planeMovementDetected);
             }
+            _trackLogging.LogTrack(trackEventArgs.Track);
         }
 
         public void OnPlaneNotInAirspace(object sender, TrackEventArgs trackEventArgs)
@@ -43,11 +44,6 @@ namespace AirTrafficMonitor.AirspaceManagement
             {
                 _airspace.PlanesInAirspace.Remove(trackEventArgs.Track.Tag);
             }
-        }
-
-        public void CheckSeparation()
-        {
-            _separation.MonitorSeparation(_airspace.PlanesInAirspace);
         }
     }
 }

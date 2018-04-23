@@ -5,6 +5,6 @@ namespace AirTrafficMonitor.Converting
 {
     public interface ITransponderDataConversion
     {
-        Track ConvertData(string receivedData);
+        void ConvertData(string receivedData);
     }
 }
