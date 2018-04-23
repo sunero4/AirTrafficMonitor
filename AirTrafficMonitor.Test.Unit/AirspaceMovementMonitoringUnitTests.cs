@@ -25,10 +25,6 @@ namespace AirTrafficMonitor.Test.Unit
         [SetUp]
         public void Setup()
         {
-            //Airspace only consists of properties, so there would be no real benefit of faking it.
-            //For maximum testability we could have chosen to change the Dictionary property to an IDictionary
-            //or IEnumerable<KeyValuePair<string, List<Track> and injected a fake there, but we'll assume
-            //C#'s collections are working as intended.
             _airspace = new Airspace(new Coordinates() {X = 10000, Y = 10000}, new Coordinates() {X = 90000, Y = 90000}, 500, 10000);
             _velocityCalculatorFake = Substitute.For<IVelocityCalculator>();
             _degreesCalculatorFake = Substitute.For<IDegreesCalculator>();
@@ -102,6 +98,22 @@ namespace AirTrafficMonitor.Test.Unit
             _uut.OnPlaneNotInAirspace(this, new TrackEventArgs() {Track = _track});
 
             Assert.IsFalse(_airspace.PlanesInAirspace.ContainsKey(_track.Tag));
+        }
+
+        [Test]
+        public void OnMovementInAirspace_CallsTrackLogging_CorrectMethodCallIsReceived()
+        {
+            _uut.OnMovementInAirspaceDetected(_uut, new TrackEventArgs() {Track = _track});
+            _trackLoggingFake.Received().LogTrack(_track);
+        }
+
+        [Test]
+        public void OnMovementInAirspace_CallsDegreesCalculator_CorrectMethodCallIsReceived()
+        {
+            var trackList = new List<Track>() {_track};
+            _airspace.PlanesInAirspace.Add(_track.Tag, trackList);
+            _uut.OnMovementInAirspaceDetected(_uut, new TrackEventArgs() {Track = _track});
+            _degreesCalculatorFake.Received().CalculateDegrees(trackList);
         }
     }
 }
