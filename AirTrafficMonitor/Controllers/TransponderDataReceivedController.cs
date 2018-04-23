@@ -59,6 +59,7 @@ namespace AirTrafficMonitor.Controllers
                     OnPlaneNotInAirspace?.Invoke(this, new TrackEventArgs() {Track = track});
                 }
             }
+            _airspaceMovementMonitoring.CheckSeparation();
         }
     }
 }
