@@ -11,14 +11,12 @@ namespace AirTrafficMonitor.AirspaceManagement
 {
     public class Separation : ISeparation
     {
-        private readonly ISeparationConsoleLogging _separationConsoleLogging;
 
         public event EventHandler<SeparationEventArgs> SeparationEvent;
 
-        public Separation(ISeparationConsoleLogging separationConsoleLogging)
+        public Separation(ISeparationXmlLogging separationXmlLogging)
         {
-            _separationConsoleLogging = separationConsoleLogging;
-            SeparationEvent += _separationConsoleLogging.LogSeparation;
+            SeparationEvent += separationXmlLogging.LogSeparation;
         }
 
         public void MonitorSeparation(Dictionary<string, List<Track>> tracks)
@@ -30,7 +28,7 @@ namespace AirTrafficMonitor.AirspaceManagement
                     if (tracks.ElementAt(i).Value.Count > 1 && tracks.ElementAt(j).Value.Count > 1 && tracks.ElementAt(i + j).Value.Count > 1)
                     {
                         var needSeparation = CheckSeparation(tracks.ElementAt(i).Value[1].Position.X, tracks.ElementAt(i).Value[1].Position.Y,
-                            tracks.ElementAt(i + j).Value[1].Position.X, tracks.ElementAt(i).Value[1].Position.Y);
+                            tracks.ElementAt(i + j).Value[1].Position.X, tracks.ElementAt(i+j).Value[1].Position.Y);
                         if (needSeparation)
                         {
                             SeparationEvent?.Invoke(this, new SeparationEventArgs()

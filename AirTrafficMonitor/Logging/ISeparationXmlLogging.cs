@@ -8,7 +8,7 @@ using System;
 
 namespace AirTrafficMonitor.Logging
 {
-    public interface ISeparationConsoleLogging
+    public interface ISeparationXmlLogging
     {
         void LogSeparation(object sender, SeparationEventArgs separationEvent);
     }
