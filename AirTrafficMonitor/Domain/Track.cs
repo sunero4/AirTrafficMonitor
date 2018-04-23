@@ -9,5 +9,6 @@ namespace AirTrafficMonitor.Domain
         public double Altitude { get; set; }
         public DateTime TimeStamp { get; set; }
         public Double Velocity { get; set; }
+        public double Course { get; set; }
     }
 }

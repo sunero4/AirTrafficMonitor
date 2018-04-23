@@ -9,7 +9,7 @@ namespace AirTrafficMonitor.CourseCalculations
 {
     public class DegreesCalculatorWithoutDecimals : IDegreesCalculator
     {
-        public double CalculateDegrees(List<Track> tracks)
+        public void CalculateDegrees(List<Track> tracks)
         {
             var x1 = tracks[0].Position.X;
             var x2 = tracks[1].Position.X;
@@ -29,7 +29,7 @@ namespace AirTrafficMonitor.CourseCalculations
                 degrees = 0;
             }
 
-            return degrees;
+            tracks[1].Course = degrees;
         }
     }
 }
