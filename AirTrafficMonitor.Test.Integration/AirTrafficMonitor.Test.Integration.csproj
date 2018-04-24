@@ -54,10 +54,17 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TransponderReceiver, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TransponderReceiver.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegrationTestStep1.cs" />
     <Compile Include="IntegrationTestStep2.cs" />
+    <Compile Include="IntegrationTestStep3.cs" />
     <Compile Include="IntegrationTestStep4.cs" />
+    <Compile Include="IntegrationTestStep5.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
