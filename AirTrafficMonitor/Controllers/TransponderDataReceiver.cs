@@ -16,11 +16,11 @@ namespace AirTrafficMonitor.Controllers
         private readonly ITransponderReceiver _transponderReceiver;
         private readonly ITransponderDataConversion _transponderDataConversion;
         private readonly ISeparation _separation;
-        private readonly IAirspace _airspace;
+        private readonly Airspace _airspace;
 
 
         public TransponderDataReceiver(ITransponderReceiver transponderReceiver,
-            ITransponderDataConversion transponderDataConversion, ISeparation separation, IAirspace airspace)
+            ITransponderDataConversion transponderDataConversion, ISeparation separation, Airspace airspace)
         {
             _transponderReceiver = transponderReceiver;
             _transponderDataConversion = transponderDataConversion;

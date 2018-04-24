@@ -9,11 +9,11 @@ namespace AirTrafficMonitor.AirspaceManagement
 {
     public class AirspaceMonitoring : IAirspaceMonitoring
     {
-        private readonly IAirspace _airspace;
+        private readonly Airspace _airspace;
         private readonly IAirspaceMovementMonitoring _airspaceMovementMonitoring;
         public event EventHandler<TrackEventArgs> PlaneIsInAirSpace;
         public event EventHandler<TrackEventArgs> PlaneIsNotInAirSpace; 
-        public AirspaceMonitoring(IAirspace airspace, IAirspaceMovementMonitoring airspaceMovementMonitoring)
+        public AirspaceMonitoring(Airspace airspace, IAirspaceMovementMonitoring airspaceMovementMonitoring)
         {
             _airspace = airspace;
             _airspaceMovementMonitoring = airspaceMovementMonitoring;

@@ -59,7 +59,6 @@
     <Compile Include="Domain\Coordinates.cs" />
     <Compile Include="Converting\IStringToDateTimeConversion.cs" />
     <Compile Include="Converting\ITransponderDataConversion.cs" />
-    <Compile Include="AirspaceManagement\IAirspace.cs" />
     <Compile Include="Domain\TrackEventArgs.cs" />
     <Compile Include="Extensions\ListSlidingWindowExtension.cs" />
     <Compile Include="Logging\ISeparationConsoleLogger.cs" />

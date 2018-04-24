@@ -4,7 +4,7 @@ using AirTrafficMonitor.VelocityCalc;
 
 namespace AirTrafficMonitor.AirspaceManagement
 {
-    public class Airspace : IAirspace
+    public class Airspace
     {
 
         public Airspace(Coordinates southWestCorner, Coordinates northEastCorner, int lowerAltitudeBoundary, int upperAltitudeBoundary)
