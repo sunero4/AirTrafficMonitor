@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AirTrafficMonitor.AirspaceManagement;
+using AirTrafficMonitor.CourseCalculations;
 using AirTrafficMonitor.Domain;
+using AirTrafficMonitor.Logging;
 using AirTrafficMonitor.VelocityCalc;
 using NSubstitute;
 using NUnit.Framework;
@@ -15,19 +17,19 @@ namespace AirTrafficMonitor.Test.Unit
     class AirspaceMovementMonitoringUnitTests
     {
         private AirspaceMovementMonitoring _uut;
-        private IAirspace _airspace;
+        private Airspace _airspace;
         private IVelocityCalculator _velocityCalculatorFake;
+        private IDegreesCalculator _degreesCalculatorFake;
+        private ITrackLogging _trackLoggingFake;
         private Track _track;
         [SetUp]
         public void Setup()
         {
-            //Airspace only consists of properties, so there would be no real benefit of faking it.
-            //For maximum testability we could have chosen to change the Dictionary property to an IDictionary
-            //or IEnumerable<KeyValuePair<string, List<Track> and injected a fake there, but we'll assume
-            //C#'s collections are working as intended.
             _airspace = new Airspace(new Coordinates() {X = 10000, Y = 10000}, new Coordinates() {X = 90000, Y = 90000}, 500, 10000);
             _velocityCalculatorFake = Substitute.For<IVelocityCalculator>();
-            _uut = new AirspaceMovementMonitoring(_airspace, _velocityCalculatorFake);
+            _degreesCalculatorFake = Substitute.For<IDegreesCalculator>();
+            _trackLoggingFake = Substitute.For<ITrackLogging>();
+            _uut = new AirspaceMovementMonitoring(_airspace, _velocityCalculatorFake, _degreesCalculatorFake, _trackLoggingFake);
             _track = new Track()
             {
                 Altitude = 1000,
@@ -96,6 +98,22 @@ namespace AirTrafficMonitor.Test.Unit
             _uut.OnPlaneNotInAirspace(this, new TrackEventArgs() {Track = _track});
 
             Assert.IsFalse(_airspace.PlanesInAirspace.ContainsKey(_track.Tag));
+        }
+
+        [Test]
+        public void OnMovementInAirspace_CallsTrackLogging_CorrectMethodCallIsReceived()
+        {
+            _uut.OnMovementInAirspaceDetected(_uut, new TrackEventArgs() {Track = _track});
+            _trackLoggingFake.Received().LogTrack(_track);
+        }
+
+        [Test]
+        public void OnMovementInAirspace_CallsDegreesCalculator_CorrectMethodCallIsReceived()
+        {
+            var trackList = new List<Track>() {_track};
+            _airspace.PlanesInAirspace.Add(_track.Tag, trackList);
+            _uut.OnMovementInAirspaceDetected(_uut, new TrackEventArgs() {Track = _track});
+            _degreesCalculatorFake.Received().CalculateDegrees(trackList);
         }
     }
 }

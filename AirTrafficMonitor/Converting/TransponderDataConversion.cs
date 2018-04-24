@@ -10,7 +10,7 @@ namespace AirTrafficMonitor.Converting
     public class TransponderDataConversion : ITransponderDataConversion
     {
         private readonly IStringToDateTimeConversion _stringToDateTimeConversion;
-        private IAirspaceMonitoring _airspaceMonitoring;
+        private readonly IAirspaceMonitoring _airspaceMonitoring;
 
         public TransponderDataConversion(IStringToDateTimeConversion stringToDateTimeConversion, IAirspaceMonitoring airspaceMonitoring)
         {
@@ -20,20 +20,9 @@ namespace AirTrafficMonitor.Converting
 
         public void ConvertData(string receivedData)
         {
-            var separatedValues = receivedData.Split(';');
             try
             {
-                var convertedData = new Track()
-                {
-                    Tag = separatedValues[0],
-                    Position = new Coordinates()
-                    {
-                        X = Convert.ToDouble(separatedValues[1]),
-                        Y = Convert.ToDouble(separatedValues[2])
-                    },
-                    Altitude = Convert.ToDouble(separatedValues[3]),
-                    TimeStamp = _stringToDateTimeConversion.ConvertToDateTime(separatedValues[4])
-                };
+                var convertedData = ConvertRawDataToTrack(receivedData);
                 _airspaceMonitoring.CheckIfPlaneIsInAirspace(convertedData);
             }
             catch (IndexOutOfRangeException)
@@ -41,6 +30,23 @@ namespace AirTrafficMonitor.Converting
                 //Throwing custom exception with custom message.
                 throw new TransponderDataConversionException();
             }
+        }
+
+        public Track ConvertRawDataToTrack(string transponderData)
+        {
+            var separatedValues = transponderData.Split(';');
+            var convertedData = new Track()
+            {
+                Tag = separatedValues[0],
+                Position = new Coordinates()
+                {
+                    X = Convert.ToDouble(separatedValues[1]),
+                    Y = Convert.ToDouble(separatedValues[2])
+                },
+                Altitude = Convert.ToDouble(separatedValues[3]),
+                TimeStamp = _stringToDateTimeConversion.ConvertToDateTime(separatedValues[4])
+            };
+            return convertedData;
         }
     }
 }
