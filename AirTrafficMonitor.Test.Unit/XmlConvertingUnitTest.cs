@@ -5,26 +5,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using AirTrafficMonitor.AirspaceManagement;
 using AirTrafficMonitor.Converting;
+using AirTrafficMonitor.Logging;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace AirTrafficMonitor.Test.Unit
 {
     [TestFixture]
     public class XmlConvertingUnitTest
     {
+        private SeparationXmlLogging _nyuut;
         private XmlConverting _uut;
         private string tag1;
         private string tag2;
         private DateTime timeOfOccurence;
+        private string formatted;
+        private SeparationEventArgs earg;
 
         [SetUp]
         public void SetUp()
         {
             _uut = new XmlConverting();
+            _nyuut = new SeparationXmlLogging();
             tag1 = "ABC123";
             tag2 = "ABC234";
-            timeOfOccurence = new DateTime(2000,1,1);
+            timeOfOccurence = new DateTime(2000, 1, 1);
+            formatted = timeOfOccurence.ToString("yyyy-MM-ddTHH:mm:ssK");
+
+            earg = new SeparationEventArgs();
+            earg.TimeOfOccurence = timeOfOccurence;
+            earg.Track1 = tag1;
+            earg.Track2 = tag2;
         }
 
         [Test]
@@ -52,7 +65,7 @@ namespace AirTrafficMonitor.Test.Unit
             var testElement = _uut.ConvertToXmlElement(tag1, tag2, timeOfOccurence);
 
             var result = testElement.Descendants().ToList();
-            Assert.That(result[2].Value, Is.EqualTo(timeOfOccurence));
+            Assert.That(result[2].Value, Is.EqualTo(formatted));
         }
     }
 }
