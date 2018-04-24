@@ -20,12 +20,7 @@ namespace AirTrafficMonitor.Test.Unit
         private Track _track1;
         private Track _track2;
         private List<Track> _tracks;
-        private Track _track3;
-        private Track _track4;
-        private Track _track5;
-        private Track _track6;
-        private Track _track7;
-        private Track _track8;
+        private Dictionary<string, List<Track>> PlanesInAirspace;
 
         [SetUp]
         public void SetUp()
