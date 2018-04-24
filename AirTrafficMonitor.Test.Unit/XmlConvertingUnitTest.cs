@@ -16,7 +16,6 @@ namespace AirTrafficMonitor.Test.Unit
     [TestFixture]
     public class XmlConvertingUnitTest
     {
-        private SeparationXmlLogging _nyuut;
         private SeparationXmlLogging _uut;
         private string tag1;
         private string tag2;

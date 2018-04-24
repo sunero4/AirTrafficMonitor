@@ -29,7 +29,7 @@ namespace AirTrafficMonitor.Application
             var separationConsoleLogger = new SeparationConsoleLogger();
             var separationXmlLogger = new SeparationXmlLogging();
 
-            var separation = new Separation(separationXmlLogger);
+            var separation = new Separation(separationXmlLogger, separationConsoleLogger);
             var airspaceMonitoring = new AirspaceMonitoring(airspace, airspaceMovementMonitoring);
             var transponderDataConversion = new TransponderDataConversion(airspaceMonitoring);
             var transponderDataReceiver = new TransponderDataReceiver(
