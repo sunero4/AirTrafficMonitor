@@ -17,6 +17,7 @@ namespace AirTrafficMonitor.Test.Unit
     {
         private Separation _uut;
         private ISeparationXmlLogging _separationXmlLoggingFake;
+        private ISeparationConsoleLogger _separationConsoleLoggerFake;
         private Track _track1;
         private Track _track2;
         private Track _track3;
@@ -29,7 +30,8 @@ namespace AirTrafficMonitor.Test.Unit
         public void SetUp()
         {
             _separationXmlLoggingFake = Substitute.For<ISeparationXmlLogging>();
-            _uut = new Separation(_separationXmlLoggingFake);
+            _separationConsoleLoggerFake = Substitute.For<ISeparationConsoleLogger>();
+            _uut = new Separation(_separationXmlLoggingFake, _separationConsoleLoggerFake);
             PlanesInAirspace = new Dictionary<string, List<Track>>();
 
             _track1 = new Track()

@@ -71,7 +71,6 @@
     <Compile Include="Exceptions\TransponderDataConversionException.cs" />
     <Compile Include="VelocityCalc\IVelocityCalculator.cs" />
     <Compile Include="VelocityCalc\VelocityCalculator.cs" />
-    <Compile Include="Converting\XmlConverting.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

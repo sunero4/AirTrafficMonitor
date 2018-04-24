@@ -13,7 +13,6 @@ namespace AirTrafficMonitor.Logging
     public class SeparationXmlLogging: ISeparationXmlLogging
     {
         private string _location;
-        private XmlConverting _xmlConverting;
 
         public SeparationXmlLogging()
         {
@@ -24,9 +23,19 @@ namespace AirTrafficMonitor.Logging
         {
             var xmlDocument = XDocument.Load(_location + "SeparationLog.xml");
             var root = xmlDocument.Root;
-            root.Add(_xmlConverting.ConvertToXmlElement(separationEvent.Track1, separationEvent.Track2,
+            root.Add(ConvertToXmlElement(separationEvent.Track1, separationEvent.Track2,
                 separationEvent.TimeOfOccurence));
             xmlDocument.Save(_location + "SeparationLog.xml");
+        }
+
+        public XElement ConvertToXmlElement(string tag1, string tag2, DateTime timeOfOccurence)
+        {
+            var element = new XElement("SeparationEvent",
+                new XElement("SeparationTag1", tag1),
+                new XElement("SeparationTag2", tag2),
+                new XElement("TimeOfSeparationDetected", timeOfOccurence));
+
+            return element;
         }
     }
 }
