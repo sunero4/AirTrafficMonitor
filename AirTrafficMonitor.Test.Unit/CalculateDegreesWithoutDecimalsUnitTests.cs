@@ -57,7 +57,9 @@ namespace AirTrafficMonitor.Test.Unit
             testTracks.Add(testTrack1);
             testTracks.Add(testTrack2);
 
-            Assert.That(_uut.CalculateDegrees(testTracks), Is.EqualTo(degrees));
+            _uut.CalculateDegrees(testTracks);
+
+            Assert.That(testTrack2.Course, Is.EqualTo(degrees));
         }
 
 
