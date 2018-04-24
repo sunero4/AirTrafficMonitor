@@ -12,8 +12,8 @@ namespace AirTrafficMonitor.CourseCalculations
         public void CalculateDegrees(List<Track> tracks)
         {
             var x1 = tracks[0].Position.X;
-            var x2 = tracks[1].Position.X;
             var y1 = tracks[0].Position.Y;
+            var x2 = tracks[1].Position.X;
             var y2 = tracks[1].Position.Y;
 
             var radians = Math.Atan2(y2 - y1, x2 - x1);
