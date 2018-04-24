@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AirTrafficMonitor.AirspaceManagement;
+using AirTrafficMonitor.Converting;
 using AirTrafficMonitor.CourseCalculations;
 using AirTrafficMonitor.Domain;
 using AirTrafficMonitor.Logging;
@@ -16,68 +17,61 @@ namespace AirTrafficMonitor.Test.Integration
     [TestFixture]
     public class IntegrationTestStep4
     {
-
-        private AirspaceMonitoring _driver;
+        private TransponderDataConversion _driver;
+        private AirspaceMonitoring _airspaceMonitoring;
         private AirspaceMovementMonitoring _airspaceMovementMonitoring;
+        private Airspace _airspace;
         private VelocityCalculator _velocityCalculator;
         private DegreesCalculatorWithoutDecimals _degreesCalculator;
         private ITrackLogging _trackLogging;
-        private Airspace _airspace;
-        private Track _track1;
-
+        private Track _track;
 
         [SetUp]
         public void Setup()
         {
             _airspace = new Airspace(new Coordinates() { X = 10000, Y = 10000 }, new Coordinates() { X = 90000, Y = 90000 },
                 500, 20000);
-            _velocityCalculator = new VelocityCalculator();
-            _degreesCalculator = new DegreesCalculatorWithoutDecimals();
             _trackLogging = Substitute.For<ITrackLogging>();
+            _degreesCalculator = new DegreesCalculatorWithoutDecimals();
+            _velocityCalculator = new VelocityCalculator();
             _airspaceMovementMonitoring =
                 new AirspaceMovementMonitoring(_airspace, _velocityCalculator, _degreesCalculator, _trackLogging);
-            _driver = new AirspaceMonitoring(_airspace,_airspaceMovementMonitoring);
-            _track1 = new Track()
+            _airspaceMonitoring = new AirspaceMonitoring(_airspace,_airspaceMovementMonitoring);
+            _driver  =new TransponderDataConversion(_airspaceMonitoring);
+
+            _track = new Track()
             {
-                Altitude = 12000,
+                Altitude = 10000,
                 Position = new Coordinates()
                 {
-                    X = 30000,
-                    Y = 40000
+                    X = 50000,
+                    Y = 60000
                 },
-                Tag = "ABC987",
-                TimeStamp = new DateTime(2013, 02, 20, 12, 15, 50, 840),
-
+                Tag = "XYZ123",
+                TimeStamp = new DateTime(2015, 10, 06, 21, 34, 56, 789)
             };
-
         }
 
         [Test]
-        public void OnMovementInAirspaceDetected_RaiseEvent_EventRaised()
+        public void ConvertData_CheckIfPlaneIsInAirspace_ReturnsTrue()
         {
+            string data = "XYZ123;50000;60000;10000;20151006213456789";
+
             bool wasRaised = false;
+            _airspaceMonitoring.PlaneIsInAirSpace += (o, e) => wasRaised = true;
 
-            _driver.PlaneIsInAirSpace += (o, e) => wasRaised = true;
-
-            _driver.CheckIfPlaneIsInAirspace(_track1);
+            _driver.ConvertData(data);
 
             Assert.That(wasRaised,Is.EqualTo(true));
         }
 
-        [Test]
-        public void NotInAirspace_RaiseEvent_EventRaised()
-        {
-            bool wasRaised = false;
-
-            _track1.Position.X = 1000;
 
 
-            _driver.PlaneIsNotInAirSpace += (o, e) => wasRaised = true;
+        
 
-            _driver.CheckIfPlaneIsInAirspace(_track1);
 
-            Assert.That(wasRaised,Is.EqualTo(true));
-        }
+
+
 
 
     }
