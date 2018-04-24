@@ -27,11 +27,17 @@ namespace AirTrafficMonitor.Test.Integration
         private VelocityCalculator _velocityCalculator;
         private DegreesCalculatorWithoutDecimals _degreesCalculator;
         private ITrackLogging _trackLogging;
-        private Track _track;
         private Separation _separation;
         private ITransponderReceiver _transponderReceiver;
         private ISeparationXmlLogging _separationXmlLogging;
         private ISeparationConsoleLogger _separationConsoleLogger;
+        private Track _track1;
+        private Track _track3;
+        private List<Track> _tracks1;
+        private List<Track> _tracks2;
+        private Dictionary<string, List<Track>> _planesInAirspace;
+
+        
 
         [SetUp]
         public void Setup()
@@ -50,21 +56,61 @@ namespace AirTrafficMonitor.Test.Integration
             _transponderDataConversion = new TransponderDataConversion(_airspaceMonitoring);
             _separation = new Separation(_separationXmlLogging, _separationConsoleLogger);
             _driver = new TransponderDataReceiver(_transponderReceiver, _transponderDataConversion, _separation, _airspace);
-            _track = new Track()
+            _planesInAirspace = new Dictionary<string, List<Track>>();
+
+            _track1 = new Track()
             {
                 Altitude = 10000,
                 Position = new Coordinates()
                 {
-                    X = 50000,
-                    Y = 60000
+                    X = 12000,
+                    Y = 12000
                 },
-                Tag = "XYZ123",
-                TimeStamp = new DateTime(2015, 10, 06, 21, 34, 56, 789)
-            };          
+                Tag = "ABC987",
+                TimeStamp = new DateTime(2013, 02, 20, 12, 15, 50, 840),
+
+            };
+            _track3 = new Track()
+            {
+                Altitude = 10000,
+                Position = new Coordinates()
+                {
+                    X = 12000,
+                    Y = 12000
+                },
+                Tag = "ABC986",
+                TimeStamp = new DateTime(2013, 02, 20, 12, 15, 50, 840),
+
+            };
+            
+
+            _tracks1 = new List<Track>();
+            _tracks1.Add(_track1);
+            
+            _airspace.PlanesInAirspace.Add("ABC987", _tracks1);
+            _tracks2 = new List<Track>();
+            _tracks2.Add(_track3);
+            
+            _airspace.PlanesInAirspace.Add("ABC986",_tracks2);
         }
 
 
         [Test]
-        public void 
+        public void OnTransponderDataReady_()
+        {
+            bool wasRaised = false;
+
+
+            string data1 = "ABC987;20000;30000;12000;20151006213456789";
+            string data2 = "ABC986;24999;30000;12000;20151006213456789";
+
+
+            _separation.SeparationEvent += (o, e) => wasRaised = true;
+
+            _driver.OnTransponderDataReady(_driver, new RawTransponderDataEventArgs(new List<string>() { data1,data2 }));
+
+            Assert.That(wasRaised,Is.EqualTo(true));
+        }
+           
     }
 }
