@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using AirTrafficMonitor.AirspaceManagement;
 using AirTrafficMonitor.Converting;
 using AirTrafficMonitor.Logging;
+using Castle.Core.Smtp;
 using NUnit.Framework;
 
 namespace AirTrafficMonitor.Test.Unit
@@ -18,6 +20,7 @@ namespace AirTrafficMonitor.Test.Unit
         private string tag1;
         private string tag2;
         private DateTime timeOfOccurence;
+        private event EventHandler<SeparationEventArgs> SeparationEvent;
 
         [SetUp]
         public void SetUp()
@@ -54,12 +57,6 @@ namespace AirTrafficMonitor.Test.Unit
 
             var result = testElement.Descendants().ToList();
             Assert.That(result[2].Value, Is.EqualTo(timeOfOccurence));
-        }
-
-        [Test]
-        public void TestXMLFileLog()
-        {
-
         }
     }
 }

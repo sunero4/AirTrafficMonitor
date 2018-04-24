@@ -16,16 +16,16 @@ namespace AirTrafficMonitor.Logging
 
         public SeparationXmlLogging()
         {
-            _location = Directory.GetCurrentDirectory();
+            _location = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + @"\";
         }
 
         public void LogSeparation(object sender, SeparationEventArgs separationEvent)
         {
-            var xmlDocument = XDocument.Load(_location + "SeparationLog.xml");
+            var xmlDocument = XDocument.Load(_location + "Separation.xml");
             var root = xmlDocument.Root;
             root.Add(ConvertToXmlElement(separationEvent.Track1, separationEvent.Track2,
                 separationEvent.TimeOfOccurence));
-            xmlDocument.Save(_location + "SeparationLog.xml");
+            xmlDocument.Save(_location + "Separation.xml");
         }
 
         public XElement ConvertToXmlElement(string tag1, string tag2, DateTime timeOfOccurence)
