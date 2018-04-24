@@ -62,8 +62,5 @@ namespace AirTrafficMonitor.Test.Integration
 
             Assert.That((_track2.Course), Is.EqualTo(_expectedCourse));
         }
-
-        
-
-}
+    }
 }
