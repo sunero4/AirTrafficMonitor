@@ -9,12 +9,10 @@ namespace AirTrafficMonitor.Converting
 {
     public class TransponderDataConversion : ITransponderDataConversion
     {
-        private readonly IStringToDateTimeConversion _stringToDateTimeConversion;
         private readonly IAirspaceMonitoring _airspaceMonitoring;
 
-        public TransponderDataConversion(IStringToDateTimeConversion stringToDateTimeConversion, IAirspaceMonitoring airspaceMonitoring)
+        public TransponderDataConversion(IAirspaceMonitoring airspaceMonitoring)
         {
-            _stringToDateTimeConversion = stringToDateTimeConversion;
             _airspaceMonitoring = airspaceMonitoring;
         }
 
@@ -44,7 +42,8 @@ namespace AirTrafficMonitor.Converting
                     Y = Convert.ToDouble(separatedValues[2])
                 },
                 Altitude = Convert.ToDouble(separatedValues[3]),
-                TimeStamp = _stringToDateTimeConversion.ConvertToDateTime(separatedValues[4])
+                TimeStamp = DateTime.ParseExact(separatedValues[4],
+                    "yyyyMMddHHmmssfff", System.Globalization.CultureInfo.InvariantCulture)
             };
             return convertedData;
         }

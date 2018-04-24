@@ -16,8 +16,6 @@ namespace AirTrafficMonitor.Test.Unit
             public Track ExpectedTrack { get; set; }
             public string TransponderData { get; set; }
         }
-
-        private IStringToDateTimeConversion _stringToDateTimeConversionFake;
         private IAirspaceMonitoring _airspaceMonitoringFake;
         private TransponderDataConversion _uut;
 
@@ -60,9 +58,8 @@ namespace AirTrafficMonitor.Test.Unit
         public void Setup()
         {
             //Datetime conversion is tested separately in StringToDateTimeConversionUnitTests.cs
-            _stringToDateTimeConversionFake = Substitute.For<IStringToDateTimeConversion>();
             _airspaceMonitoringFake = Substitute.For<IAirspaceMonitoring>();
-            _uut = new TransponderDataConversion(_stringToDateTimeConversionFake, _airspaceMonitoringFake);
+            _uut = new TransponderDataConversion(_airspaceMonitoringFake);
         }
 
         [Test]
@@ -94,13 +91,6 @@ namespace AirTrafficMonitor.Test.Unit
         {
             var convertedData = _uut.ConvertRawDataToTrack(testData.TransponderData);
             Assert.That(convertedData.Tag, Is.EqualTo(testData.ExpectedTrack.Tag));
-        }
-
-        [Test]
-        public void ConvertRawDataToTrack_ValidStringData_CorrectMethodCallToStringToDateTimeConversionIsReceived()
-        {
-            var convertedData = _uut.ConvertRawDataToTrack("ABCD1234;0;0;9999;20181207112359123");
-            _stringToDateTimeConversionFake.Received().ConvertToDateTime("20181207112359123");
         }
 
         [Test]
