@@ -72,6 +72,7 @@
     <Compile Include="TransponderDataConversionUnitTests.cs" />
     <Compile Include="TransponderDataReceiverUnitTests.cs" />
     <Compile Include="VelocityCalculatorUnitTests.cs" />
+    <Compile Include="XmlConvertingUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AirTrafficMonitor\AirTrafficMonitor.csproj">
