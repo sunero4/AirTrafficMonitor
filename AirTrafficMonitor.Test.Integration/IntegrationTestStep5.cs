@@ -61,13 +61,17 @@ namespace AirTrafficMonitor.Test.Integration
         }
 
         [Test]
-        public void OnTransponderDataReady_ConvertData_DataConverted()
+        public void OnTransponderDataReady_ConvertData_EventRaised()
         {
             string data = "XYZ123;50000;60000;10000;20151006213456789";
+            bool wasRaised = false;
+            _airspaceMonitoring.PlaneIsInAirSpace += (o, e) => wasRaised = true;
 
             _driver.OnTransponderDataReady(_driver,new RawTransponderDataEventArgs(new List<string>(){data}));
 
-            
+            Assert.That(wasRaised, Is.EqualTo(true));
+
+
         }
 
 

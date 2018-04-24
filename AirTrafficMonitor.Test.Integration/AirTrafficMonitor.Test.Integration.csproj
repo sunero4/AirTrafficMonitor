@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegrationTestStep6.cs" />
     <Compile Include="IntegrationTestStep1.cs" />
     <Compile Include="IntegrationTestStep2.cs" />
     <Compile Include="IntegrationTestStep3.cs" />
