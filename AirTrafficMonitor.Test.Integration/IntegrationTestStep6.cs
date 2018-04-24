@@ -17,7 +17,7 @@ using TransponderReceiver;
 namespace AirTrafficMonitor.Test.Integration
 {
     [TestFixture]
-    public class IntegrationTestStep5
+    public class IntegrationTestStep6
     {
         private TransponderDataReceiver _driver;
         private TransponderDataConversion _transponderDataConversion;
@@ -28,14 +28,16 @@ namespace AirTrafficMonitor.Test.Integration
         private DegreesCalculatorWithoutDecimals _degreesCalculator;
         private ITrackLogging _trackLogging;
         private Track _track;
-        private ISeparation _separation;
+        private Separation _separation;
         private ITransponderReceiver _transponderReceiver;
-
+        private ISeparationXmlLogging _separationXmlLogging;
+        private ISeparationConsoleLogger _separationConsoleLogger;
 
         [SetUp]
         public void Setup()
         {
-            _separation = Substitute.For<ISeparation>();
+            _separationConsoleLogger = Substitute.For<ISeparationConsoleLogger>();
+            _separationXmlLogging = Substitute.For<ISeparationXmlLogging>();
             _transponderReceiver = Substitute.For<ITransponderReceiver>();
             _airspace = new Airspace(new Coordinates() { X = 10000, Y = 10000 }, new Coordinates() { X = 90000, Y = 90000 },
                 500, 20000);
@@ -46,7 +48,8 @@ namespace AirTrafficMonitor.Test.Integration
                 new AirspaceMovementMonitoring(_airspace, _velocityCalculator, _degreesCalculator, _trackLogging);
             _airspaceMonitoring = new AirspaceMonitoring(_airspace, _airspaceMovementMonitoring);
             _transponderDataConversion = new TransponderDataConversion(_airspaceMonitoring);
-            _driver = new TransponderDataReceiver(_transponderReceiver,_transponderDataConversion,_separation,_airspace);
+            _separation = new Separation(_separationXmlLogging, _separationConsoleLogger);
+            _driver = new TransponderDataReceiver(_transponderReceiver, _transponderDataConversion, _separation, _airspace);
             _track = new Track()
             {
                 Altitude = 10000,
@@ -57,20 +60,11 @@ namespace AirTrafficMonitor.Test.Integration
                 },
                 Tag = "XYZ123",
                 TimeStamp = new DateTime(2015, 10, 06, 21, 34, 56, 789)
-            };
+            };          
         }
+
 
         [Test]
-        public void OnTransponderDataReady_ConvertData_DataConverted()
-        {
-            string data = "XYZ123;50000;60000;10000;20151006213456789";
-
-            _driver.OnTransponderDataReady(_driver,new RawTransponderDataEventArgs(new List<string>(){data}));
-
-
-            
-        }
-
-
+        public void 
     }
 }
