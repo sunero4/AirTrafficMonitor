@@ -3,21 +3,24 @@ using System.Linq;
 using AirTrafficMonitor.CourseCalculations;
 using AirTrafficMonitor.Domain;
 using AirTrafficMonitor.Extensions;
+using AirTrafficMonitor.Logging;
 using AirTrafficMonitor.VelocityCalc;
 
 namespace AirTrafficMonitor.AirspaceManagement
 {
     public class AirspaceMovementMonitoring : IAirspaceMovementMonitoring
     {
-        private readonly IAirspace _airspace;
+        private readonly Airspace _airspace;
         private readonly IVelocityCalculator _velocityCalculator;
-        private IDegreesCalculator _degreesCalculator;
+        private readonly IDegreesCalculator _degreesCalculator;
+        private readonly ITrackLogging _trackLogging;
 
-        public AirspaceMovementMonitoring(IAirspace airspace, IVelocityCalculator velocityCalculator, IDegreesCalculator degreesCalculator)
+        public AirspaceMovementMonitoring(Airspace airspace, IVelocityCalculator velocityCalculator, IDegreesCalculator degreesCalculator, ITrackLogging trackLogging)
         {
             _airspace = airspace;
             _velocityCalculator = velocityCalculator;
             _degreesCalculator = degreesCalculator;
+            _trackLogging = trackLogging;
         }
         public void OnMovementInAirspaceDetected(object sender, TrackEventArgs trackEventArgs)
         {
@@ -32,6 +35,7 @@ namespace AirTrafficMonitor.AirspaceManagement
                 _velocityCalculator.CalculateVelocity(planeMovementDetected);
                 _degreesCalculator.CalculateDegrees(planeMovementDetected);
             }
+            _trackLogging.LogTrack(trackEventArgs.Track);
         }
 
         public void OnPlaneNotInAirspace(object sender, TrackEventArgs trackEventArgs)

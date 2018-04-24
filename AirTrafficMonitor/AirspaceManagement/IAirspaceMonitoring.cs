@@ -4,6 +4,7 @@ namespace AirTrafficMonitor.AirspaceManagement
 {
     public interface IAirspaceMonitoring
     {
-        bool IsPlaneInAirspace(Coordinates planeCoordinates, double planeAltitude);
+        void CheckIfPlaneIsInAirspace(Track track);
+        bool IsPlaneInAirspace(Track track);
     }
 }

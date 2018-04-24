@@ -9,19 +9,35 @@ namespace AirTrafficMonitor.AirspaceManagement
 {
     public class AirspaceMonitoring : IAirspaceMonitoring
     {
-        private readonly IAirspace _airspace;
-
-        public AirspaceMonitoring(IAirspace airspace)
+        private readonly Airspace _airspace;
+        private readonly IAirspaceMovementMonitoring _airspaceMovementMonitoring;
+        public event EventHandler<TrackEventArgs> PlaneIsInAirSpace;
+        public event EventHandler<TrackEventArgs> PlaneIsNotInAirSpace; 
+        public AirspaceMonitoring(Airspace airspace, IAirspaceMovementMonitoring airspaceMovementMonitoring)
         {
             _airspace = airspace;
+            _airspaceMovementMonitoring = airspaceMovementMonitoring;
+            PlaneIsInAirSpace += _airspaceMovementMonitoring.OnMovementInAirspaceDetected;
+            PlaneIsNotInAirSpace += _airspaceMovementMonitoring.OnPlaneNotInAirspace;
         }
 
-        public bool IsPlaneInAirspace(Coordinates planeCoordinates, double planeAltitude)
+        public void CheckIfPlaneIsInAirspace(Track track)
         {
-            //Checks if plane is in airspace
-            return !(planeCoordinates.X > _airspace.NorthEastCorner.X || planeCoordinates.X < _airspace.SoutWestCorner.X ||
-                planeCoordinates.Y > _airspace.NorthEastCorner.Y || planeCoordinates.Y < _airspace.SoutWestCorner.Y ||
-                planeAltitude > _airspace.UpperAltitudeBoundary || planeAltitude < _airspace.LowerAltitudeBoundary);
+            if (IsPlaneInAirspace(track))
+            {
+                PlaneIsInAirSpace?.Invoke(this, new TrackEventArgs() {Track = track});
+            }
+            else
+            {
+                PlaneIsNotInAirSpace?.Invoke(this, new TrackEventArgs() {Track = track});
+            }
+        }
+
+        public bool IsPlaneInAirspace(Track track)
+        {
+            return !(track.Position.X > _airspace.NorthEastCorner.X || track.Position.X < _airspace.SoutWestCorner.X ||
+                     track.Position.Y > _airspace.NorthEastCorner.Y || track.Position.Y < _airspace.SoutWestCorner.Y ||
+                     track.Altitude > _airspace.UpperAltitudeBoundary || track.Altitude < _airspace.LowerAltitudeBoundary);
         }
     }
 }

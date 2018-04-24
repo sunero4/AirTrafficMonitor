@@ -15,8 +15,9 @@ namespace AirTrafficMonitor.Test.Unit
     [TestFixture]
     public class AirspaceMonitoringUnitTests
     {
-        private AirspaceMonitoring uut;
-        private IAirspace _airspace;
+        private AirspaceMonitoring _uut;
+        private Airspace _airspace;
+        private IAirspaceMovementMonitoring _airspaceMovementMonitoring;
         private Coordinates _southWestCorner;
         private Coordinates _northEastCorner;
         [SetUp]
@@ -25,13 +26,9 @@ namespace AirTrafficMonitor.Test.Unit
             _southWestCorner = new Coordinates(){X = 10000,Y = 10000};
             _northEastCorner = new Coordinates(){X = 90000, Y = 90000};
           
-            _airspace = Substitute.For<IAirspace>();
-            uut = new AirspaceMonitoring(_airspace);
-            _airspace.LowerAltitudeBoundary.Returns(500);
-            _airspace.UpperAltitudeBoundary.Returns(20000);
-            _airspace.SoutWestCorner.Returns(_southWestCorner);
-            _airspace.NorthEastCorner.Returns(_northEastCorner);
-            uut = new AirspaceMonitoring(_airspace);
+            _airspace = new Airspace(_southWestCorner, _northEastCorner, 500, 20000);
+            _airspaceMovementMonitoring = Substitute.For<IAirspaceMovementMonitoring>();
+            _uut = new AirspaceMonitoring(_airspace, _airspaceMovementMonitoring);
         }
 
         [TestCase(10000,40000,5000,true)]
@@ -50,8 +47,24 @@ namespace AirTrafficMonitor.Test.Unit
         {
             Coordinates planeCoordinates = new Coordinates(){X = planeX, Y = planeY};
 
-            Assert.That(uut.IsPlaneInAirspace(planeCoordinates,planeAltitude),Is.EqualTo(Result));
+            Assert.That(_uut.IsPlaneInAirspace(new Track() {Position = planeCoordinates, Altitude = planeAltitude}),Is.EqualTo(Result));
             
+        }
+
+        [Test]
+        public void CheckIfPlaneIsInAirspace_PlaneIsInAirspaceEventIsInvoked_CorrectCallIsReceived()
+        {
+            var track = new Track() {Altitude = 5000, Position = new Coordinates() {X = 20000, Y = 20000}};
+            _uut.CheckIfPlaneIsInAirspace(track);
+            _airspaceMovementMonitoring.ReceivedWithAnyArgs().OnMovementInAirspaceDetected(_uut, new TrackEventArgs() {Track = track});
+        }
+
+        [Test]
+        public void CheckIfPlaneIsInAirSpace_PlaneIsNotInAirspaceEventIsInvoked_CorrectCallIsReceived()
+        {
+            var track = new Track() {Altitude = 20, Position = new Coordinates() {X = 5, Y = 5}};
+            _uut.CheckIfPlaneIsInAirspace(track);
+            _airspaceMovementMonitoring.ReceivedWithAnyArgs().OnPlaneNotInAirspace(_uut, new TrackEventArgs() {Track = track});
         }
     }
 }
