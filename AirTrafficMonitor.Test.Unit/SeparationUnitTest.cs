@@ -19,7 +19,10 @@ namespace AirTrafficMonitor.Test.Unit
         private ISeparationXmlLogging _separationXmlLoggingFake;
         private Track _track1;
         private Track _track2;
-        private List<Track> _tracks;
+        private Track _track3;
+        private Track _track4;
+        private List<Track> _tracks1;
+        private List<Track> _tracks2;
         private Dictionary<string, List<Track>> PlanesInAirspace;
 
         [SetUp]
@@ -27,14 +30,15 @@ namespace AirTrafficMonitor.Test.Unit
         {
             _separationXmlLoggingFake = Substitute.For<ISeparationXmlLogging>();
             _uut = new Separation(_separationXmlLoggingFake);
+            PlanesInAirspace = new Dictionary<string, List<Track>>();
 
             _track1 = new Track()
             {
                 Altitude = 10000,
                 Position = new Coordinates()
                 {
-                    X = 3000,
-                    Y = 4000
+                    X = 12000,
+                    Y = 12000
                 },
                 Tag = "ABC987",
                 TimeStamp = new DateTime(2013, 02, 20, 12, 15, 50, 840),
@@ -42,104 +46,89 @@ namespace AirTrafficMonitor.Test.Unit
             };
             _track2 = new Track()
             {
-                Altitude = 10301,
+                Altitude = 10000,
                 Position = new Coordinates()
                 {
-                    X = 1000,
-                    Y = 2000
+                    X = 12000,
+                    Y = 12000
                 },
                 Tag = "ABC987",
                 TimeStamp = new DateTime(2013, 02, 20, 12, 16, 55, 555),
-
             };
             _track3 = new Track()
             {
                 Altitude = 10000,
                 Position = new Coordinates()
                 {
-                    X = 3000,
-                    Y = 4000
+                    X = 12000,
+                    Y = 12000
                 },
-                Tag = "ABC987",
+                Tag = "ABC986",
                 TimeStamp = new DateTime(2013, 02, 20, 12, 15, 50, 840),
 
             };
             _track4 = new Track()
             {
-                Altitude = 10300,
-                Position = new Coordinates()
-                {
-                    X = 1000,
-                    Y = 2000
-                },
-                Tag = "ABC987",
-                TimeStamp = new DateTime(2013, 02, 20, 12, 16, 55, 555),
-
-            };
-            _track5 = new Track()
-            {
-                Altitude = 11500,
-                Position = new Coordinates()
-                {
-                    X = 3000,
-                    Y = 4000
-                },
-                Tag = "ABC987",
-                TimeStamp = new DateTime(2013, 02, 20, 12, 15, 50, 840),
-
-            };
-            _track6 = new Track()
-            {
-                Altitude = 10300,
-                Position = new Coordinates()
-                {
-                    X = 1000,
-                    Y = 2000
-                },
-                Tag = "ABC987",
-                TimeStamp = new DateTime(2013, 02, 20, 12, 16, 55, 555),
-
-            };
-            _track7 = new Track()
-            {
                 Altitude = 10000,
                 Position = new Coordinates()
                 {
-                    X = 3000,
-                    Y = 4000
+                    X = 12000,
+                    Y = 12000
                 },
-                Tag = "ABC987",
-                TimeStamp = new DateTime(2013, 02, 20, 12, 15, 50, 840),
-
-            };
-            _track8 = new Track()
-            {
-                Altitude = 10300,
-                Position = new Coordinates()
-                {
-                    X = 1000,
-                    Y = 2000
-                },
-                Tag = "ABC987",
+                Tag = "ABC986",
                 TimeStamp = new DateTime(2013, 02, 20, 12, 16, 55, 555),
-
             };
-
-            _tracks = new List<Track>();
-            _tracks.Add(_track1);
-            _tracks.Add(_track2);
-            _tracks.Add(_track3);
-            _tracks.Add(_track4);
-            _tracks.Add(_track5);
-            _tracks.Add(_track6);
-            _tracks.Add(_track7);
-            _tracks.Add(_track8);
+            
+            _tracks1 = new List<Track>();
+            _tracks1.Add(_track1);
+            _tracks1.Add(_track2);
+            PlanesInAirspace.Add("ABC987", _tracks1);
+            _tracks2 = new List<Track>();
+            _tracks2.Add(_track3);
+            _tracks2.Add(_track4);
+            PlanesInAirspace.Add("ABC986", _tracks2);
         }
 
-        [Test]
-        public void Test()
+        [TestCase(20000, 24999, 30000, 30000, 12000, 12000)]
+        [TestCase(30000, 30000, 30000, 34999, 12000, 12000)]
+        [TestCase(20000, 20000, 30000, 30000, 12000, 12299)]
+        public void DetermineSeparationEvent_SeparationEventIsRaised_EventIsRaised(double X1, double X2, double Y1, double Y2, double alt1, double alt2)
         {
+            bool wasRaised = false;
 
+            _uut.SeparationEvent += (o, e) => wasRaised = true;
+
+            PlanesInAirspace.ElementAt(0).Value[1].Position.X = X1;
+            PlanesInAirspace.ElementAt(1).Value[1].Position.X = X2;
+            PlanesInAirspace.ElementAt(0).Value[1].Position.Y = Y1;
+            PlanesInAirspace.ElementAt(1).Value[1].Position.Y = Y2;
+            PlanesInAirspace.ElementAt(0).Value[1].Altitude = alt1;
+            PlanesInAirspace.ElementAt(1).Value[1].Altitude = alt2;
+
+            _uut.MonitorSeparation(PlanesInAirspace);
+
+            Assert.IsTrue(wasRaised);
+        }
+
+        [TestCase(20000, 25000, 30000, 30000, 12000, 12000)]
+        [TestCase(30000, 30000, 30000, 35000, 12000, 12000)]
+        [TestCase(20000, 20000, 30000, 30000, 12000, 12300)]
+        public void DetermineSeparationEvent_SeparationEventIsNotRaised_EventIsNotRaised(double X1, double X2, double Y1, double Y2, double alt1, double alt2)
+        {
+            bool wasRaised = false;
+
+            _uut.SeparationEvent += (o, e) => wasRaised = true;
+
+            PlanesInAirspace.ElementAt(0).Value[1].Position.X = X1;
+            PlanesInAirspace.ElementAt(1).Value[1].Position.X = X2;
+            PlanesInAirspace.ElementAt(0).Value[1].Position.Y = Y1;
+            PlanesInAirspace.ElementAt(1).Value[1].Position.Y = Y2;
+            PlanesInAirspace.ElementAt(0).Value[1].Altitude = alt1;
+            PlanesInAirspace.ElementAt(1).Value[1].Altitude = alt2;
+
+            _uut.MonitorSeparation(PlanesInAirspace);
+
+            Assert.IsFalse(wasRaised);
         }
     }
 }

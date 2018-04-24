@@ -28,7 +28,7 @@ namespace AirTrafficMonitor.AirspaceManagement
                     if (tracks.ElementAt(i).Value.Count > 1 && tracks.ElementAt(j).Value.Count > 1 && tracks.ElementAt(i + j).Value.Count > 1)
                     {
                         var needSeparation = CheckSeparation(tracks.ElementAt(i).Value[1].Position.X, tracks.ElementAt(i).Value[1].Position.Y,
-                            tracks.ElementAt(i + j).Value[1].Position.X, tracks.ElementAt(i+j).Value[1].Position.Y);
+                            tracks.ElementAt(i + j).Value[1].Position.X, tracks.ElementAt(i+j).Value[1].Position.Y, tracks.ElementAt(i).Value[1].Altitude, tracks.ElementAt(i + j).Value[1].Altitude);
                         if (needSeparation)
                         {
                             SeparationEvent?.Invoke(this, new SeparationEventArgs()
@@ -44,11 +44,12 @@ namespace AirTrafficMonitor.AirspaceManagement
         }
 
 
-        private bool CheckSeparation(double X1, double Y1, double X2, double Y2)
+        private bool CheckSeparation(double X1, double Y1, double X2, double Y2, double alt1, double alt2)
         {
             var xAfstand = Math.Abs(X1 - X2);
             var yAfstand = Math.Abs(Y1 - Y2);
-            if (xAfstand < 5000 && yAfstand < 300)
+            var altAfstand = Math.Abs(alt1 - alt2);
+            if ((xAfstand + yAfstand) < 5000 && altAfstand < 300)
             {
                 return true;
             }

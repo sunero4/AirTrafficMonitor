@@ -41,8 +41,8 @@ namespace AirTrafficMonitor.Test.Integration
                 Altitude = 12000,
                 Position = new Coordinates()
                 {
-                    X = 3000,
-                    Y = 4000
+                    X = 30000,
+                    Y = 40000
                 },
                 Tag = "ABC987",
                 TimeStamp = new DateTime(2013, 02, 20, 12, 15, 50, 840),
@@ -55,8 +55,8 @@ namespace AirTrafficMonitor.Test.Integration
                 Altitude = 8000,
                 Position = new Coordinates()
                 {
-                    X = 1000,
-                    Y = 2000
+                    X = 10000,
+                    Y = 20000
                 },
                 Tag = "ABC987",
                 TimeStamp = new DateTime(2013, 02, 20, 12, 16, 55, 555),

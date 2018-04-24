@@ -13,18 +13,18 @@ namespace AirTrafficMonitor.Logging
     public class SeparationXmlLogging: ISeparationXmlLogging
     {
         private string _location;
-        private XmlFileLogging _xmlFileLogging;
+        private XmlConverting _xmlConverting;
 
         public SeparationXmlLogging()
         {
-            var _location = Directory.GetCurrentDirectory();
+            _location = Directory.GetCurrentDirectory();
         }
 
         public void LogSeparation(object sender, SeparationEventArgs separationEvent)
         {
             var xmlDocument = XDocument.Load(_location + "SeparationLog.xml");
             var root = xmlDocument.Root;
-            root.Add(_xmlFileLogging.WriteXmlFile(separationEvent.Track1, separationEvent.Track2,
+            root.Add(_xmlConverting.ConvertToXmlElement(separationEvent.Track1, separationEvent.Track2,
                 separationEvent.TimeOfOccurence));
             xmlDocument.Save(_location + "SeparationLog.xml");
         }

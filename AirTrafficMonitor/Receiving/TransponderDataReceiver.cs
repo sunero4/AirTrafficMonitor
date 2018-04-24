@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AirTrafficMonitor.AirspaceManagement;
+﻿using AirTrafficMonitor.AirspaceManagement;
 using AirTrafficMonitor.Converting;
-using AirTrafficMonitor.Domain;
-using AirTrafficMonitor.Logging;
 using TransponderReceiver;
 
-namespace AirTrafficMonitor.Controllers
+namespace AirTrafficMonitor.Receiving
 {
     public class TransponderDataReceiver
     {

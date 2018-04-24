@@ -51,13 +51,11 @@
     <Compile Include="AirspaceManagement\ISeparation.cs" />
     <Compile Include="AirspaceManagement\Separation.cs" />
     <Compile Include="AirspaceManagement\SeparationEventArgs.cs" />
-    <Compile Include="Controllers\TransponderDataReceiver.cs" />
-    <Compile Include="Converting\XmlFileLogging.cs" />
+    <Compile Include="Receiving\TransponderDataReceiver.cs" />
     <Compile Include="CourseCalculations\DegreesCalculator.cs" />
     <Compile Include="CourseCalculations\IDegreesCalculator.cs" />
     <Compile Include="AirspaceManagement\Airspace.cs" />
     <Compile Include="Domain\Coordinates.cs" />
-    <Compile Include="Converting\IStringToDateTimeConversion.cs" />
     <Compile Include="Converting\ITransponderDataConversion.cs" />
     <Compile Include="Domain\TrackEventArgs.cs" />
     <Compile Include="Extensions\ListSlidingWindowExtension.cs" />
@@ -68,16 +66,12 @@
     <Compile Include="Logging\SeparationXmlLogging.cs" />
     <Compile Include="Logging\TrackConsoleLogging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Converting\StringToDateTimeConversion.cs" />
     <Compile Include="Domain\Track.cs" />
     <Compile Include="Converting\TransponderDataConversion.cs" />
     <Compile Include="Exceptions\TransponderDataConversionException.cs" />
-    <Compile Include="Rendering\ISeparationToStringRepresentation.cs" />
-    <Compile Include="Rendering\ITrackToStringRepresentation.cs" />
-    <Compile Include="Rendering\SeparationToStringRepresentation.cs" />
-    <Compile Include="Rendering\TrackToStringRepresentation.cs" />
     <Compile Include="VelocityCalc\IVelocityCalculator.cs" />
     <Compile Include="VelocityCalc\VelocityCalculator.cs" />
+    <Compile Include="Converting\XmlConverting.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
